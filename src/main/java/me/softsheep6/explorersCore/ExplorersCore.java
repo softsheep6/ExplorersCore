@@ -34,7 +34,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         // registers event handlers! and the armor event thing
         getServer().getPluginManager().registerEvents(new DragonEgg(), this);
         getServer().getPluginManager().registerEvents(new InfinityTotem(), this);
-        getServer().getPluginManager().registerEvents(new Crown(), this);
         getServer().getPluginManager().registerEvents(new LightningSword(), this);
         getServer().getPluginManager().registerEvents(new MaceCraftable(), this);
         ArmorEquipEvent.registerListener(this);
