@@ -1,0 +1,21 @@
+name: ExplorersCore
+version: '1.0.0'
+main: me.softsheep6.explorersCore.ExplorersCore
+api-version: '1.21'
+commands:
+  givetotem:
+    description: Gives the Totem of Infinity
+    permission: explorerscore.totem
+    usage: /<command>
+  givecrown:
+    description: Gives the Explorer's Crown
+    permission: explorerscore.crown
+    usage: /<command>
+  givesword:
+    description: Gives the Lightning Sword
+    permission: explorerscore.sword
+    usage: /<command>
+  togglemacecraftable:
+    description: Toggles whether or not the mace can be crafted
+    permission: explorerscore.togglemacecraftable
+    usage: /<command>
