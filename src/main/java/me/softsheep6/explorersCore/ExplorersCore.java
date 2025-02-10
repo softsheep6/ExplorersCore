@@ -96,6 +96,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         sword.setItemMeta(swordMeta);
     }
 
+    // commands!! all of these r operator only. the first 3 will give you the item in their names, and the 4th one
+    // toggles whether or not the mace can be crafted.
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("givetotem")) {
@@ -105,8 +107,11 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         } else if (command.getName().equalsIgnoreCase("givesword")) {
             if (sender instanceof Player player) player.getInventory().addItem(sword);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
-            if (!maceCraftable) Bukkit.getWorlds().getFirst().setBlockData(0, 319, 0, Material.LIGHT.createBlockData());
-            else Bukkit.getWorlds().getFirst().setBlockData(0, 319, 0, Material.AIR.createBlockData());
+            // very strange way to keep track of mace crafting being enabled butttt idk how else to lol
+            // basically just sets a block at coords 1000,319,319 to light if its enabled, and air if disabled
+            // and when server starts it checks that block to see if its enabled or not!
+            if (!maceCraftable) Bukkit.getWorlds().getFirst().setBlockData(1000, 319, 1000, Material.LIGHT.createBlockData());
+            else Bukkit.getWorlds().getFirst().setBlockData(1000, 319, 1000, Material.AIR.createBlockData());
         }
 
 
@@ -117,7 +122,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         return maceCraftable;
     }
     public void setMaceCraftable() {
-        maceCraftable = Bukkit.getWorlds().getFirst().getBlockAt(0, 319, 0).getType().equals(Material.LIGHT);
+        maceCraftable = Bukkit.getWorlds().getFirst().getBlockAt(1000, 319, 1000).getType().equals(Material.LIGHT);
     }
 
 
