@@ -85,9 +85,9 @@ public class DragonEgg implements Listener {
                 itemInOffHand.setItemMeta(eggMeta);
             }
 
-            // changes the player's fly speed for 10 seconds (this is how the immunity to magic damage is detected)
+            // changes the player's fly speed for 12 seconds (this is how the immunity to magic damage is detected)
             player.setFlySpeed(0.2F);
-            new MagicImmunityTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 200L);
+            new MagicImmunityTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 240L);
 
             // cooldown! so cool HAh get it lolz
             player.setCooldown(Material.DRAGON_EGG, 900); //900
@@ -104,9 +104,11 @@ public class DragonEgg implements Listener {
 
     }
 
-
+/*
     // THIS METHOD IS for all the events involving the item in hand changing. since this block of codell be reused for each one.
-    public void applyEffects(ItemStack item1, ItemStack item2, Player player) {
+    public void applyEffects(ItemStack item2, ItemStack item1, Player player) {
+//        System.out.println(Objects.equals(item1.getType(), Material.DRAGON_EGG));
+//        System.out.println(!(Objects.equals(item1.getType(), Material.DRAGON_EGG)) && Objects.equals(item2.getType(), Material.DRAGON_EGG));
         if (Objects.equals(item1.getType(), Material.DRAGON_EGG)) {
             PotionEffect eff = new PotionEffect(PotionEffectType.STRENGTH, -1, 1);
             eff.apply(player);
@@ -195,7 +197,7 @@ public class DragonEgg implements Listener {
 
     }
 
-
+*/
 
 
 
@@ -207,9 +209,8 @@ public class DragonEgg implements Listener {
             player = (Player) event.getEntity();
         else return;
 
-        System.out.println(Objects.requireNonNull(event.getDamageSource().getCausingEntity()).getType());
         // cancels the dragons breath damage for the egg's user
-        if (player.getFlySpeed() == 0.2F && Objects.requireNonNull(event.getDamageSource().getCausingEntity()).getType().equals(EntityType.AREA_EFFECT_CLOUD)) {
+        if (player.getFlySpeed() == 0.2F && event.getDamageSource().getDamageType().getKeyOrNull().toString().equals("minecraft:indirect_magic")) {
             event.setCancelled(true);
         }
     }

@@ -16,12 +16,11 @@ public class PreventGrindstoningItems implements Listener {
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null)
             return;
-
         // if the inventory click is in a grindstone and is on the result slot, if the result item clicked is the totem or the crown
         // then CANCEL THE EVENT! NO GRINDSTONING FOR U
         if (Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.GRINDSTONE && event.getSlotType() == InventoryType.SlotType.RESULT) {
-            if ((clicked.getEnchantmentLevel(Enchantment.LOYALTY) == 1 && clicked.getType().equals(Material.GOLDEN_HELMET))
-                    || (clicked.getEnchantmentLevel(Enchantment.MENDING) == 1 && clicked.getType().equals(Material.TOTEM_OF_UNDYING))) {
+            if (clicked.getType().equals(Material.GOLDEN_HELMET)
+                    || (clicked.getType().equals(Material.TOTEM_OF_UNDYING))) {
                 event.setCancelled(true);
             }
         }

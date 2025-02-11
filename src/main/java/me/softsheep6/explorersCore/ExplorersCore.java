@@ -1,6 +1,9 @@
 package me.softsheep6.explorersCore;
 
 import me.softsheep6.explorersCore.miscListeners.MaceCraftable;
+import me.softsheep6.explorersCore.miscListeners.NetheriteArmorUnequippable;
+import me.softsheep6.explorersCore.miscListeners.PreventGrindstoningItems;
+import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -25,6 +28,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack crown = new ItemStack(Material.GOLDEN_HELMET);
     public ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
     public boolean maceCraftable = true;
+    public Player playerWithEgg = null;
     @Override
     public void onEnable() {
         System.out.println("Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
@@ -34,12 +38,19 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         // registers event handlers! and the armor event thing
         getServer().getPluginManager().registerEvents(new DragonEgg(), this);
         getServer().getPluginManager().registerEvents(new InfinityTotem(), this);
+        getServer().getPluginManager().registerEvents(new Crown(), this);
         getServer().getPluginManager().registerEvents(new LightningSword(), this);
         getServer().getPluginManager().registerEvents(new MaceCraftable(), this);
+        getServer().getPluginManager().registerEvents(new NetheriteArmorUnequippable(), this);
+        getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
+
         ArmorEquipEvent.registerListener(this);
 
         // does what the thingy says ...
         setMaceCraftable();
+
+        // checks if someones holding dragon egg every tick
+        new CheckForEggTask(this).runTaskTimer(this, 0, 1);
 
 
         // the giant blocks of code below are for each item and are used in their respective classes!!!
@@ -58,7 +69,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         assert totemMeta != null;
         totemMeta.addEnchant(Enchantment.MENDING, 1, true);
         totemMeta.setLore(lore);
-//        totemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         totemMeta.setDisplayName(ChatColor.RESET + "Totem of Infinity");
         totemMeta.setRarity(ItemRarity.EPIC);
         totem.setItemMeta(totemMeta);
@@ -110,8 +120,16 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             // very strange way to keep track of mace crafting being enabled butttt idk how else to lol
             // basically just sets a block at coords 1000,319,319 to light if its enabled, and air if disabled
             // and when server starts it checks that block to see if its enabled or not!
-            if (!maceCraftable) Bukkit.getWorlds().getFirst().setBlockData(1000, 319, 1000, Material.LIGHT.createBlockData());
-            else Bukkit.getWorlds().getFirst().setBlockData(1000, 319, 1000, Material.AIR.createBlockData());
+            if (!maceCraftable) {
+                Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
+                loc.getBlock().setType(Material.LIGHT);
+                System.out.println("Mace crafting enabled");
+            }
+            else {
+                Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
+                loc.getBlock().setType(Material.AIR);
+                System.out.println("Mace crafting disabled");
+            }
         }
 
 
@@ -122,7 +140,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         return maceCraftable;
     }
     public void setMaceCraftable() {
-        maceCraftable = Bukkit.getWorlds().getFirst().getBlockAt(1000, 319, 1000).getType().equals(Material.LIGHT);
+        Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
+        maceCraftable = loc.getBlock().getType().equals(Material.LIGHT);
     }
 
 
