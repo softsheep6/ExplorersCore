@@ -16,6 +16,8 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 
@@ -45,9 +47,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
 
         ArmorEquipEvent.registerListener(this);
-
-        // does what the thingy says ...
-        setMaceCraftable();
 
         // checks if someones holding dragon egg every tick
         new CheckForEggTask(this).runTaskTimer(this, 0, 1);
@@ -108,6 +107,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
     // commands!! all of these r operator only. the first 3 will give you the item in their names, and the 4th one
     // toggles whether or not the mace can be crafted.
+    // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("givetotem")) {
@@ -117,33 +117,25 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         } else if (command.getName().equalsIgnoreCase("givesword")) {
             if (sender instanceof Player player) player.getInventory().addItem(sword);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
-            // very strange way to keep track of mace crafting being enabled butttt idk how else to lol
-            // basically just sets a block at coords 1000,319,319 to light if its enabled, and air if disabled
-            // and when server starts it checks that block to see if its enabled or not!
-            if (!maceCraftable) {
-                Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
-                loc.getBlock().setType(Material.LIGHT);
-                System.out.println("Mace crafting enabled");
-            }
-            else {
-                Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
-                loc.getBlock().setType(Material.AIR);
-                System.out.println("Mace crafting disabled");
+            if (sender instanceof Player player) {
+                // uses persistent data containers. i freaking LOVE these things now
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "macecraftable");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting enabled!");
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting disabled!");
+                }
+                System.out.println(data.get(key, PersistentDataType.BOOLEAN));
             }
         }
 
 
         return true;
     }
-
-    public boolean getMaceCraftable() {
-        return maceCraftable;
-    }
-    public void setMaceCraftable() {
-        Location loc = new Location(Bukkit.getWorlds().getFirst(), 1000, 319, 1000);
-        maceCraftable = loc.getBlock().getType().equals(Material.LIGHT);
-    }
-
 
     public static ExplorersCore getPlugin() {
         return plugin;
