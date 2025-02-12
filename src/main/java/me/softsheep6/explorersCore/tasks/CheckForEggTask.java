@@ -26,14 +26,12 @@ public class CheckForEggTask extends BukkitRunnable {
         // this works because there is only 1 dragon egg meaning only 1 person that can have the effects !
         //IT WORKS YESS
         Player eggPlayer = ExplorersCore.getPlugin().playerWithEgg;
-//        System.out.println("this is running." + eggPlayer);
         for(Player player : plugin.getServer().getOnlinePlayers()) {
             if (player.getInventory().getItemInMainHand().getType().equals(Material.DRAGON_EGG) || player.getInventory().getItemInOffHand().getType().equals(Material.DRAGON_EGG)) {
                 PotionEffect eff = new PotionEffect(PotionEffectType.STRENGTH, -1, 1);
                 eff.apply(player);
                 PotionEffect eff2 = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 0);
                 eff2.apply(player);
-//                System.out.println(player + " is holding the egg!");
 
                 ExplorersCore.getPlugin().playerWithEgg = player;
             }
@@ -43,8 +41,7 @@ public class CheckForEggTask extends BukkitRunnable {
         if (eggPlayer != null && (!eggPlayer.getInventory().getItemInMainHand().getType().equals(Material.DRAGON_EGG) && !eggPlayer.getInventory().getItemInOffHand().getType().equals(Material.DRAGON_EGG))) {
             eggPlayer.removePotionEffect(PotionEffectType.STRENGTH);
             eggPlayer.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-//            System.out.println(eggPlayer + " has stopped holding the egg!");
-            eggPlayer = null;
+            ExplorersCore.getPlugin().playerWithEgg = null;
         }
 
     }
