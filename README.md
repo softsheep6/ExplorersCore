@@ -5,3 +5,5 @@ items added:
 - also gives dragon egg the ability to spawn dragons breath (on a cooldown)
 
 more coming soon!
+
+huge shoutout to https://www.youtube.com/@KodySimpson btw his plugin tutorials r awesome!!!
