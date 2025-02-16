@@ -13,15 +13,22 @@ import java.util.Objects;
 public class PreventGrindstoningItems implements Listener {
 
     @EventHandler void onInventoryClick (InventoryClickEvent event) {
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked == null)
-            return;
-        // if the inventory click is in a grindstone and is on the result slot, if the result item clicked is the totem or the crown
-        // then CANCEL THE EVENT! NO GRINDSTONING FOR U
-        if (Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.GRINDSTONE && event.getSlotType() == InventoryType.SlotType.RESULT) {
-            if (clicked.getType().equals(Material.GOLDEN_HELMET)
-                    || (clicked.getType().equals(Material.TOTEM_OF_UNDYING))) {
-                event.setCancelled(true);
+        if (Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.GRINDSTONE) {
+            // this causes NullPointerException sometimes but as far as i know no earth shattering consequences occur soooo whatever
+            ItemStack clicked = event.getCurrentItem();
+            ItemStack grindstoned = Objects.requireNonNull(event.getClickedInventory()).getItem(0);
+            if (clicked == null || grindstoned == null)
+                return;
+            // if the inventory click is in a grindstone and is on the result slot, if the result item clicked is an item that shouldnt be unenchanted,
+            // then CANCEL THE EVENT! NO GRINDSTONING FOR U
+            if (event.getSlotType() == InventoryType.SlotType.RESULT) {
+                if (grindstoned.getEnchantmentLevel(Enchantment.LOYALTY) == 1 || grindstoned.getEnchantmentLevel(Enchantment.MENDING) == 1 || grindstoned.getEnchantmentLevel(Enchantment.CHANNELING) == 1) {
+                    if (clicked.getType().equals(Material.GOLDEN_HELMET)
+                            || clicked.getType().equals(Material.TOTEM_OF_UNDYING)
+                            || clicked.getType().equals(Material.DIAMOND_SWORD)) {
+                        event.setCancelled(true);
+                    }
+                }
             }
         }
     }

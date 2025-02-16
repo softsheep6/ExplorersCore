@@ -52,7 +52,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MaceCraftable(), this);
         getServer().getPluginManager().registerEvents(new NetheriteArmorUnequippable(), this);
         getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
-
+        getServer().getPluginManager().registerEvents(new HeroApple(), this);
         ArmorEquipEvent.registerListener(this);
 
         // checks if someones holding dragon egg every tick
@@ -70,7 +70,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "A totem forged from time itself...");
         lore.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Totem does not get consumed after use! (one minute cooldown)");
         lore.add("");
-        lore.add("" + ChatColor.GRAY + ChatColor.ITALIC + "(warning: do not put in grindstone!)");
+        lore.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta totemMeta = totem.getItemMeta();
         assert totemMeta != null;
         totemMeta.addEnchant(Enchantment.MENDING, 1, true);
@@ -84,7 +84,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore2.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Made out of REAL gold!");
         lore2.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Doubles the wearer's maximum hearts! (10 -> 20)");
         lore2.add("");
-        lore2.add("" + ChatColor.GRAY + ChatColor.ITALIC + "(warning: do not put in grindstone!)");
+        lore2.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta crownMeta = crown.getItemMeta();
         assert crownMeta != null;
         crownMeta.setLore(lore2);
@@ -106,6 +106,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore3.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "20% chance to strike lightning when attacking!");
         lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Lightning attacks do as much damage as netherite");
         lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " swords! (2 second cooldown)");
+        lore3.add("");
+        lore3.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta swordMeta = sword.getItemMeta();
         assert swordMeta != null;
         swordMeta.setLore(lore3);

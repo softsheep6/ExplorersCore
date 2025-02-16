@@ -4,11 +4,11 @@ import me.softsheep6.explorersCore.ExplorersCore;
 import me.softsheep6.explorersCore.LightningSword;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LightningCooldown  extends BukkitRunnable {
+public class LightningCooldownTask extends BukkitRunnable {
 
     ExplorersCore plugin;
 
-    public LightningCooldown(ExplorersCore plugin) {
+    public LightningCooldownTask(ExplorersCore plugin) {
         this.plugin = plugin;
     }
 
