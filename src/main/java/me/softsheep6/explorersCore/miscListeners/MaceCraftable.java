@@ -10,8 +10,6 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.persistence.PersistentDataType;
-
-import javax.naming.Name;
 import java.util.List;
 
 // checks if the recipe crafted is the mace recipe, and that the mace craftable is set to false, and if so cancels the craft

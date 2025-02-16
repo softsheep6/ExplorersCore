@@ -43,6 +43,5 @@ public class CheckForEggTask extends BukkitRunnable {
             eggPlayer.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
             ExplorersCore.getPlugin().playerWithEgg = null;
         }
-
     }
 }

@@ -7,4 +7,5 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscList
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\NetheriteArmorUnequippable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\PreventGrindstoningItems.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\CheckForEggTask.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\MagicImmunityTask.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\DamagePreventionTask.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\LightningCooldown.java

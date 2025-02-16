@@ -13,9 +13,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +29,7 @@ import com.jeff_media.armorequipevent.ArmorEquipEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class ExplorersCore extends JavaPlugin implements Listener {
     private static ExplorersCore plugin;
@@ -90,18 +97,21 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         crownMeta.setEnchantmentGlintOverride(true);
         crownMeta.setRarity(ItemRarity.EPIC);
         crownMeta.addEnchant(Enchantment.LOYALTY, 1, true);
+        crownMeta.setCustomModelData(1);
         crown.setItemMeta(crownMeta);
 
         //sword
         List<String> lore3 = new ArrayList<>();
         lore3.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Harness the power of the storm...");
         lore3.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "20% chance to strike lightning when attacking!");
+        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Lightning attacks do as much damage as netherite");
+        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " swords! (2 second cooldown)");
         ItemMeta swordMeta = sword.getItemMeta();
         assert swordMeta != null;
         swordMeta.setLore(lore3);
         swordMeta.setDisplayName(ChatColor.RESET + "Lightning Sword");
         swordMeta.setRarity(ItemRarity.EPIC);
-        sword.addUnsafeEnchantment(Enchantment.LOYALTY, 1);
+        swordMeta.addEnchant(Enchantment.CHANNELING, 1, true);
         sword.setItemMeta(swordMeta);
     }
 

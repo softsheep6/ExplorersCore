@@ -1,6 +1,6 @@
 package me.softsheep6.explorersCore;
 
-import me.softsheep6.explorersCore.tasks.MagicImmunityTask;
+import me.softsheep6.explorersCore.tasks.DamagePreventionTask;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +16,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 // sorry for how long and horrible and bad this class is IM SIMPLY the best at coding.
 public class DragonEgg implements Listener {
@@ -87,7 +85,7 @@ public class DragonEgg implements Listener {
 
             // changes the player's fly speed for 12 seconds (this is how the immunity to magic damage is detected)
             player.setFlySpeed(0.2F);
-            new MagicImmunityTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 240L);
+            new DamagePreventionTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 240L);
 
             // cooldown! so cool HAh get it lolz
             player.setCooldown(Material.DRAGON_EGG, 900); //900
@@ -203,6 +201,7 @@ public class DragonEgg implements Listener {
 
     // this checks if a player damaged by an area effect cloud has used egg ability (flyspeed = 0.2)
     // and if so gives immunity to the effect by cancelling it
+    // this is also reused for lightning sword to prevent player from taking lightning damage !
     @EventHandler void onEntityDamage (EntityDamageEvent event) {
         Player player;
         if (event.getEntity() instanceof Player)
@@ -211,6 +210,10 @@ public class DragonEgg implements Listener {
 
         // cancels the dragons breath damage for the egg's user
         if (player.getFlySpeed() == 0.2F && event.getDamageSource().getDamageType().getKeyOrNull().toString().equals("minecraft:indirect_magic")) {
+            event.setCancelled(true);
+        }
+        // cancels the lightning bolt damage for the sword's user
+        if (player.getFlySpeed() == 0.3F && event.getDamageSource().getDamageType().getKeyOrNull().toString().equals("minecraft:lightning_bolt")) {
             event.setCancelled(true);
         }
     }
