@@ -41,7 +41,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         System.out.println("Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
-
         plugin = this;
 
         // registers event handlers! and the armor event thing
@@ -104,8 +103,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         List<String> lore3 = new ArrayList<>();
         lore3.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Harness the power of the storm...");
         lore3.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "20% chance to strike lightning when attacking!");
-        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Lightning attacks do as much damage as netherite");
-        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " swords! (2 second cooldown)");
+        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Lightning attacks do one heart of true damage!");
+        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Grants immunity to lightning damage!");
         lore3.add("");
         lore3.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta swordMeta = sword.getItemMeta();

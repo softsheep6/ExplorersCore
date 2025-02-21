@@ -1,5 +1,7 @@
 package me.softsheep6.explorersCore;
 
+import me.softsheep6.explorersCore.tasks.ReaddHealthBoostTask;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -8,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class InfinityTotem implements Listener {
 
@@ -32,14 +36,16 @@ public class InfinityTotem implements Listener {
             if (player.getInventory().getItemInOffHand().getEnchantmentLevel(Enchantment.MENDING) == 1) {
                 player.getInventory().setItemInOffHand(totem);
                 player.setCooldown(totem, 1200); //1200
+                // cool sound effect yay
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
             } else if (player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.MENDING) == 1) {
                 player.getInventory().setItemInMainHand(totem);
                 player.setCooldown(totem, 1200); //1200
+                // cool sound effect yay
+                player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
             }
 
 
-            // cool sound effect yay
-            player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
 
 
         // if the Infinity Totem is still on cooldown CANCEL that event. no revival for u !
@@ -47,6 +53,10 @@ public class InfinityTotem implements Listener {
             event.setCancelled(true);
             player.setHealth(0.0);
         }
+
+        // if player is wearing crown, giv them the effect back. because for WHATEVR reason totems
+        // clear all effects like huh ??? who decided on that being a feature
+        new ReaddHealthBoostTask(ExplorersCore.getPlugin()).runTaskLater(ExplorersCore.getPlugin(), 1L);
 
     }
 }

@@ -12,6 +12,7 @@ public class LightningCooldownTask extends BukkitRunnable {
         this.plugin = plugin;
     }
 
+    // self explanatory !
     @Override
     public void run() {
         LightningSword.setCanStrikeLightning(true);

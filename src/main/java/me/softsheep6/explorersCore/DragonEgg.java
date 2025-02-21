@@ -2,6 +2,7 @@ package me.softsheep6.explorersCore;
 
 import me.softsheep6.explorersCore.tasks.DamagePreventionTask;
 import org.bukkit.*;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,9 +36,10 @@ public class DragonEgg implements Listener {
         if (itemInOffHand.getType() == Material.DRAGON_EGG)
             inOffHand = true;
 
-        if ((event.getAction() == Action.RIGHT_CLICK_AIR | event.getAction() == Action.RIGHT_CLICK_BLOCK) && (inMainHand | inOffHand) && player.getCooldown(Material.DRAGON_EGG) == 0) {
-            /*spawns dragons breath as a projectile instead of at the player (Bad) (Not the good)
-            event.getPlayer().getWorld().spawnEntity(event.getPlayer().getLocation(), EntityType.AREA_EFFECT_CLOUD); */
+        /*  | event.getAction() == Action.RIGHT_CLICK_BLOCK (removed because activating when placing blocks is annoying) */
+        // if the player right clicks the air while sneaking, and the dragon egg is in either of their hands, and the egg isnt on cooldown,
+        // DO THINGS    !
+        if ((event.getAction() == Action.RIGHT_CLICK_AIR) && (inMainHand | inOffHand) && player.isSneaking() && player.getCooldown(Material.DRAGON_EGG) == 0) {
 
             // create dragons breath and give it thingys ok
             Entity breath = player.getWorld().spawnEntity(loc, EntityType.AREA_EFFECT_CLOUD);
@@ -55,15 +57,14 @@ public class DragonEgg implements Listener {
             player.getWorld().playSound(loc, Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 0);
 
             // resistance for 10 seconds
-            PotionEffect eff = new PotionEffect(PotionEffectType.RESISTANCE, 100, 0);
+            PotionEffect eff = new PotionEffect(PotionEffectType.RESISTANCE, 200, 0);
             eff.apply(player);
-
 
             // adds the Lore in case it doesnt have it !
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "omelette.");
             lore.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "Right Click to summon dragon's breath");
-            lore.add(ChatColor.RESET + " " + ChatColor.WHITE + " and receive 5 seconds of Resistance I!");
+            lore.add(ChatColor.RESET + " " + ChatColor.WHITE + " and receive 10 seconds of Resistance I!");
             lore.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Holding the egg grants Strength II and ");
             lore.add(ChatColor.RESET + " " + ChatColor.WHITE + " Fire Resistance!");
 
@@ -85,6 +86,7 @@ public class DragonEgg implements Listener {
 
             // changes the player's fly speed for 12 seconds (this is how the immunity to magic damage is detected)
             player.setFlySpeed(0.2F);
+            System.out.println("set player fly speed! " + player);
             new DamagePreventionTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 240L);
 
             // cooldown! so cool HAh get it lolz
@@ -102,118 +104,20 @@ public class DragonEgg implements Listener {
 
     }
 
-/*
-    // THIS METHOD IS for all the events involving the item in hand changing. since this block of codell be reused for each one.
-    public void applyEffects(ItemStack item2, ItemStack item1, Player player) {
-//        System.out.println(Objects.equals(item1.getType(), Material.DRAGON_EGG));
-//        System.out.println(!(Objects.equals(item1.getType(), Material.DRAGON_EGG)) && Objects.equals(item2.getType(), Material.DRAGON_EGG));
-        if (Objects.equals(item1.getType(), Material.DRAGON_EGG)) {
-            PotionEffect eff = new PotionEffect(PotionEffectType.STRENGTH, -1, 1);
-            eff.apply(player);
-            PotionEffect eff2 = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 0);
-            eff2.apply(player);
-        } else if (!(Objects.equals(item1.getType(), Material.DRAGON_EGG)) && Objects.equals(item2.getType(), Material.DRAGON_EGG)) {
-            player.removePotionEffect(PotionEffectType.STRENGTH);
-            player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-        } else {
-            player.removePotionEffect(PotionEffectType.STRENGTH);
-            player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-        }
-    }
-
-
-
-    //
-    // next 4 event listeners are all for giving egg effects.
-    // is there a better way to do this ,Maybe posssibly idk we are doing it this way because i said so ok
-    //
-
-
-
-    // checks when player main hand changes if theyre now holding Egg.
-    @EventHandler void onItemHeldChanges(PlayerItemHeldEvent event) {
-        Player player = event.getPlayer();
-        ItemStack previousItem;
-        ItemStack newItem;
-        if (player.getInventory().getItem(event.getPreviousSlot()) == null)
-            previousItem = new ItemStack(Material.AIR);
-        else
-            previousItem = player.getInventory().getItem(event.getPreviousSlot());
-        if (player.getInventory().getItem(event.getNewSlot()) == null)
-            newItem = new ItemStack(Material.AIR);
-        else
-            newItem = player.getInventory().getItem(event.getNewSlot());
-
-        assert previousItem != null;
-        assert newItem != null;
-        applyEffects(previousItem, newItem, player);
-    }
-    // checks when off hand / main hand changes and if theyre now holding Egg.
-    @EventHandler void onSwapHandsItems(PlayerSwapHandItemsEvent event) {
-        Player player = event.getPlayer();
-        ItemStack mainItem;
-        ItemStack offItem;
-
-        if (event.getMainHandItem() == null)
-            mainItem = new ItemStack(Material.AIR);
-        else
-            mainItem = event.getMainHandItem();
-        if (event.getOffHandItem() == null)
-            offItem = new ItemStack(Material.AIR);
-        else
-            offItem = event.getOffHandItem();
-
-        assert mainItem != null;
-        assert offItem != null;
-        applyEffects(mainItem, offItem, player);
-    }
-    // checks when item is dropped and if its egg BYE BYE EFFECTs
-    @EventHandler void onDropItem (PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        ItemStack dropped = event.getItemDrop().getItemStack();
-
-        if (dropped.getType() == Material.DRAGON_EGG) {
-            player.removePotionEffect(PotionEffectType.STRENGTH);
-            player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-        }
-
-    }
-    // checks if item picked up is egg and EFFECT GIVE
-    @EventHandler void onPickUpItem (EntityPickupItemEvent event) {
-        Player player;
-        if (event.getEntity() instanceof Player)
-            player = (Player) event.getEntity();
-        else return;
-        ItemStack picked = event.getItem().getItemStack();
-
-        if (picked.getType() == Material.DRAGON_EGG) {
-            PotionEffect eff = new PotionEffect(PotionEffectType.STRENGTH, -1, 1);
-            eff.apply(player);
-            PotionEffect eff2 = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 0);
-            eff2.apply(player);
-        }
-
-    }
-
-*/
-
-
 
     // this checks if a player damaged by an area effect cloud has used egg ability (flyspeed = 0.2)
     // and if so gives immunity to the effect by cancelling it
-    // this is also reused for lightning sword to prevent player from taking lightning damage !
     @EventHandler void onEntityDamage (EntityDamageEvent event) {
         Player player;
         if (event.getEntity() instanceof Player)
             player = (Player) event.getEntity();
         else return;
+        boolean damagerExists = event.getDamageSource().getDamageType() != null;
+        if (!damagerExists) return; // PLEASE stop giving me NullPointerException PLEASE PLEASE PLEASE
+        // i dont think i need damagerExists anymore but im keeping it whatever
 
         // cancels the dragons breath damage for the egg's user
-        if (player.getFlySpeed() == 0.2F && event.getDamageSource().getDamageType().getKeyOrNull().toString().equals("minecraft:indirect_magic")) {
-            event.setCancelled(true);
-        }
-        // cancels the lightning bolt damage for the sword's user
-        if (player.getFlySpeed() == 0.3F && event.getDamageSource().getDamageType().getKeyOrNull().toString().equals("minecraft:lightning_bolt")) {
+        if (player.getFlySpeed() == 0.2F && damagerExists && event.getDamageSource().getDamageType().equals(DamageType.INDIRECT_MAGIC)) {
             event.setCancelled(true);
         }
     }

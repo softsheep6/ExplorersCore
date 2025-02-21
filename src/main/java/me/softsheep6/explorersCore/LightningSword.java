@@ -6,6 +6,7 @@ import me.softsheep6.explorersCore.tasks.DamagePreventionTask;
 import me.softsheep6.explorersCore.tasks.LightningCooldownTask;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffectType;
 
 
@@ -52,10 +54,24 @@ public class LightningSword implements Listener {
                 // sets the cooldown for lightning
                 canStrikeLightning = false;
                 new LightningCooldownTask(ExplorersCore.getPlugin()).runTaskLater(ExplorersCore.getPlugin(), 40);
-                // prevents player from taking lightning damage for 2 seconds
-                player.setFlySpeed(0.3F);
-                new DamagePreventionTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 40L);
+
             }
+        }
+    }
+
+    // this makes the lightning sword's holder immune to lightning damage !
+    @EventHandler void onEntityDamage (EntityDamageEvent event) {
+        Player player;
+        if (event.getEntity() instanceof Player)
+            player = (Player) event.getEntity();
+        else return;
+
+        // if the player is holding a diamond sword, and it has channeling, and the damage type is a lightning bolt,
+        // um. Yk what happens.
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_SWORD)
+           && player.getInventory().getItemInMainHand().containsEnchantment(Enchantment.CHANNELING)
+           && event.getDamageSource().getDamageType().equals(DamageType.LIGHTNING_BOLT)) {
+            event.setCancelled(true);
         }
     }
 }
