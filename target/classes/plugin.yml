@@ -19,3 +19,7 @@ commands:
     description: Toggles whether or not the mace can be crafted
     permission: explorerscore.togglemacecraftable
     usage: /<command>
+  togglepvp:
+    description: Toggles pvp
+    permission: explorerscore.togglepvp
+    usage: /<command>

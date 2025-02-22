@@ -3,6 +3,7 @@ package me.softsheep6.explorersCore;
 import me.softsheep6.explorersCore.miscListeners.MaceCraftable;
 import me.softsheep6.explorersCore.miscListeners.NetheriteArmorUnequippable;
 import me.softsheep6.explorersCore.miscListeners.PreventGrindstoningItems;
+import me.softsheep6.explorersCore.miscListeners.StringDispenser;
 import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -52,6 +53,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new NetheriteArmorUnequippable(), this);
         getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
         getServer().getPluginManager().registerEvents(new HeroApple(), this);
+        getServer().getPluginManager().registerEvents(new StringDispenser(), this);
         ArmorEquipEvent.registerListener(this);
 
         // checks if someones holding dragon egg every tick
