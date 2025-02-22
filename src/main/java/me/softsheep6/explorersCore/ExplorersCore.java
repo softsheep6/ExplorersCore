@@ -57,6 +57,9 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         // checks if someones holding dragon egg every tick
         new CheckForEggTask(this).runTaskTimer(this, 0, 1);
 
+        // enables/disables pvp depending on persistent thingy
+        Bukkit.getWorlds().getFirst().setPVP(Boolean.TRUE.equals(Bukkit.getWorlds().getFirst().getPersistentDataContainer().get(new NamespacedKey(this, "pvp"), PersistentDataType.BOOLEAN)));
+
 
         // the giant blocks of code below are for each item and are used in their respective classes!!!
         // putting them here is better than putting them in their own classes i think cause otherwise every time
@@ -116,8 +119,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         sword.setItemMeta(swordMeta);
     }
 
-    // commands!! all of these r operator only. the first 3 will give you the item in their names, and the 4th one
-    // toggles whether or not the mace can be crafted.
+    // commands!! all of these r operator only. the first 3 will give you the item in their names, 4th one
+    // toggles whether or not the mace can be crafted, 5th one toggles pvp
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -135,15 +138,29 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting enabled!");
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.GREEN + "enabled!");
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting disabled!");
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.RED + "disabled!");
                 }
                 System.out.println(data.get(key, PersistentDataType.BOOLEAN));
             }
+        } else if (command.getName().equalsIgnoreCase("togglepvp")) {
+            if (sender instanceof Player player) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "pvp");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.GREEN +"enabled!");
+                    world.setPVP(true);
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.RED + "disabled!");
+                    world.setPVP(false);
+                }
+            }
         }
-
 
         return true;
     }
