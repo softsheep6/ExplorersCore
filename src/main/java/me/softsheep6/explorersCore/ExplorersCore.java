@@ -1,9 +1,6 @@
 package me.softsheep6.explorersCore;
 
-import me.softsheep6.explorersCore.miscListeners.MaceCraftable;
-import me.softsheep6.explorersCore.miscListeners.NetheriteArmorUnequippable;
-import me.softsheep6.explorersCore.miscListeners.PreventGrindstoningItems;
-import me.softsheep6.explorersCore.miscListeners.StringDispenser;
+import me.softsheep6.explorersCore.miscListeners.*;
 import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -14,15 +11,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.components.CustomModelDataComponent;
-import org.bukkit.inventory.meta.trim.ArmorTrim;
-import org.bukkit.inventory.meta.trim.TrimMaterial;
-import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,7 +21,6 @@ import com.jeff_media.armorequipevent.ArmorEquipEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class ExplorersCore extends JavaPlugin implements Listener {
     private static ExplorersCore plugin;
@@ -52,15 +42,18 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MaceCraftable(), this);
         getServer().getPluginManager().registerEvents(new NetheriteArmorUnequippable(), this);
         getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
-        getServer().getPluginManager().registerEvents(new HeroApple(), this);
         getServer().getPluginManager().registerEvents(new StringDispenser(), this);
+        getServer().getPluginManager().registerEvents(new DisableCrafterCraftingMace(), this);
+        getServer().getPluginManager().registerEvents(new MiningHammer(), this);
+
         ArmorEquipEvent.registerListener(this);
 
         // checks if someones holding dragon egg every tick
         new CheckForEggTask(this).runTaskTimer(this, 0, 1);
 
         // enables/disables pvp depending on persistent thingy
-        Bukkit.getWorlds().getFirst().setPVP(Boolean.TRUE.equals(Bukkit.getWorlds().getFirst().getPersistentDataContainer().get(new NamespacedKey(this, "pvp"), PersistentDataType.BOOLEAN)));
+        Bukkit.getWorlds().getFirst().setPVP(true);
+        //Boolean.TRUE.equals(Bukkit.getWorlds().getFirst().getPersistentDataContainer().get(new NamespacedKey(this, "pvp"), PersistentDataType.BOOLEAN))
 
 
         // the giant blocks of code below are for each item and are used in their respective classes!!!

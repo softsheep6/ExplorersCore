@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '1.1.0'
+version: '1.1.1'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:

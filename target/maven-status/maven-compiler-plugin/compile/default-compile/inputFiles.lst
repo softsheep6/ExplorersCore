@@ -1,9 +1,10 @@
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\Crown.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\DragonEgg.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\ExplorersCore.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\HeroApple.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\InfinityTotem.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\LightningSword.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\MiningHammer.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\DisableCrafterCraftingMace.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\MaceCraftable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\NetheriteArmorUnequippable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\PreventGrindstoningItems.java

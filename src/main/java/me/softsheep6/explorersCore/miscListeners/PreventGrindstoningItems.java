@@ -13,8 +13,9 @@ import java.util.Objects;
 public class PreventGrindstoningItems implements Listener {
 
     @EventHandler void onInventoryClick (InventoryClickEvent event) {
-        if (Objects.requireNonNull(event.getClickedInventory()).getType() == InventoryType.GRINDSTONE) {
-            // this causes NullPointerException sometimes but as far as i know no earth shattering consequences occur soooo whatever
+        if (event.getClickedInventory() == null)
+            return; // YAY NO MORE NULLPOINTEREXCEPTION YAYYYY
+        if (event.getClickedInventory().getType() == InventoryType.GRINDSTONE) {
             ItemStack clicked = event.getCurrentItem();
             ItemStack grindstoned = Objects.requireNonNull(event.getClickedInventory()).getItem(0);
             if (clicked == null || grindstoned == null)

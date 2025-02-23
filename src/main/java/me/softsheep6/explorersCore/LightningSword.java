@@ -1,14 +1,11 @@
 package me.softsheep6.explorersCore;
 
-import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import me.softsheep6.explorersCore.tasks.DamageAfterLightningTask;
-import me.softsheep6.explorersCore.tasks.DamagePreventionTask;
 import me.softsheep6.explorersCore.tasks.LightningCooldownTask;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -16,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.potion.PotionEffectType;
 
 
 public class LightningSword implements Listener {
