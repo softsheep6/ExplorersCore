@@ -49,7 +49,7 @@ public class DragonEgg implements Listener {
             ((AreaEffectCloud) breath).setReapplicationDelay(10);
             ((AreaEffectCloud) breath).setDuration(200);
             ((AreaEffectCloud) breath).setRadius(5);
-            ((AreaEffectCloud) breath).setRadiusPerTick((float)-0.01);
+            ((AreaEffectCloud) breath).setRadiusPerTick((float)-0.0025);
             ((AreaEffectCloud) breath).setWaitTime(20);
 
 

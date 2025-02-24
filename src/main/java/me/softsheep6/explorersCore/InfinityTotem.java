@@ -31,12 +31,12 @@ public class InfinityTotem implements Listener {
         if (player.getCooldown(totem) == 0) {
 
             // which hand?!?!
-            if (player.getInventory().getItemInOffHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInOffHand().equals(new ItemStack(Material.TOTEM_OF_UNDYING))) {
+            if (player.getInventory().getItemInOffHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInOffHand().getType().equals(Material.TOTEM_OF_UNDYING)) {
                 player.getInventory().setItemInOffHand(totem);
                 player.setCooldown(totem, 1200); //1200
                 // cool sound effect yay
                 player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
-            } else if (player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInMainHand().equals(new ItemStack(Material.TOTEM_OF_UNDYING))) {
+            } else if (player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInMainHand().getType().equals(Material.TOTEM_OF_UNDYING)) {
                 player.getInventory().setItemInMainHand(totem);
                 player.setCooldown(totem, 1200); //1200
                 // cool sound effect yay

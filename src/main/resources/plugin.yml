@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '1.1.1'
+version: '1.2.0'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -15,11 +15,11 @@ commands:
     description: Gives the Lightning Sword
     permission: explorerscore.sword
     usage: /<command>
+  givehammer:
+    description: Gives the Mining Hammer
+    permission: explorerscore.hammer
+    usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted
     permission: explorerscore.togglemacecraftable
-    usage: /<command>
-  togglepvp:
-    description: Toggles pvp
-    permission: explorerscore.togglepvp
     usage: /<command>

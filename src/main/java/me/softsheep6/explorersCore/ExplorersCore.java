@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -27,6 +28,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
     public ItemStack crown = new ItemStack(Material.GOLDEN_HELMET);
     public ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
+    public ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE);
     public boolean maceCraftable = true;
     public Player playerWithEgg = null;
     @Override
@@ -50,10 +52,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // checks if someones holding dragon egg every tick
         new CheckForEggTask(this).runTaskTimer(this, 0, 1);
-
-        // enables/disables pvp depending on persistent thingy
-        Bukkit.getWorlds().getFirst().setPVP(true);
-        //Boolean.TRUE.equals(Bukkit.getWorlds().getFirst().getPersistentDataContainer().get(new NamespacedKey(this, "pvp"), PersistentDataType.BOOLEAN))
 
 
         // the giant blocks of code below are for each item and are used in their respective classes!!!
@@ -112,9 +110,36 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         swordMeta.setRarity(ItemRarity.EPIC);
         swordMeta.addEnchant(Enchantment.CHANNELING, 1, true);
         sword.setItemMeta(swordMeta);
+
+        // hammer
+        List<String> lore4 = new ArrayList<>();
+        lore4.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Brought to you by GregoriousT");
+        lore4.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Can mine a 3x3x1 area at once!");
+        lore4.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right click switches between 1x1x1 and 3x3x1");
+        lore4.add("");
+        lore4.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta hammerMeta = hammer.getItemMeta();
+        assert hammerMeta != null;
+        hammerMeta.setLore(lore4);
+        hammerMeta.setDisplayName(ChatColor.RESET + "Mining Hammer");
+        hammerMeta.setRarity(ItemRarity.RARE);
+        hammerMeta.addEnchant(Enchantment.POWER, 1, true);
+        hammer.setItemMeta(hammerMeta);
+
+
+
+
+        // recipes !
+        ShapedRecipe hammerRecipe = new ShapedRecipe(new NamespacedKey(this, "hammer"), hammer);
+        hammerRecipe.shape("ABA" ," C ", " C ");
+        hammerRecipe.setIngredient('A', Material.DIAMOND_BLOCK);
+        hammerRecipe.setIngredient('B', Material.NETHERITE_INGOT);
+        hammerRecipe.setIngredient('C', Material.BREEZE_ROD);
+        Bukkit.addRecipe(hammerRecipe);
+
     }
 
-    // commands!! all of these r operator only. the first 3 will give you the item in their names, 4th one
+    // commands!! all of these r operator only. the first 4 will give you the item in their names, 4th one
     // toggles whether or not the mace can be crafted, 5th one toggles pvp
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
@@ -125,6 +150,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             if (sender instanceof Player player) player.getInventory().addItem(crown);
         } else if (command.getName().equalsIgnoreCase("givesword")) {
             if (sender instanceof Player player) player.getInventory().addItem(sword);
+        } else if (command.getName().equalsIgnoreCase("givehammer")) {
+            if (sender instanceof Player player) player.getInventory().addItem(hammer);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {
                 // uses persistent data containers. i freaking LOVE these things now
@@ -140,7 +167,21 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 }
                 System.out.println(data.get(key, PersistentDataType.BOOLEAN));
             }
-        } else if (command.getName().equalsIgnoreCase("togglepvp")) {
+        }
+
+        return true;
+    }
+
+    public static ExplorersCore getPlugin() {
+        return plugin;
+    }
+
+
+
+
+
+    // stupid dumb not working WHATEVER begone BANISHED TO THE DEPTHS OF EXPLORERSCORE DOT JAVA
+    /* else if (command.getName().equalsIgnoreCase("togglepvp")) {
             if (sender instanceof Player player) {
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "pvp");
@@ -156,12 +197,5 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 }
             }
         }
-
-        return true;
-    }
-
-    public static ExplorersCore getPlugin() {
-        return plugin;
-    }
-
+     */
 }

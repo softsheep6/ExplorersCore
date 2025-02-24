@@ -8,7 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class DisableCrafterCraftingMace implements Listener {
     @EventHandler void onCrafterCrafts (CrafterCraftEvent event) {
-        if (event.getResult().equals(new ItemStack(Material.MACE)))
+        if (event.getResult().equals(new ItemStack(Material.MACE))) {
             event.setCancelled(true);
+        }
     }
 }
