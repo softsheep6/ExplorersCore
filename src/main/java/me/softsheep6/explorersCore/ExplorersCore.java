@@ -7,7 +7,8 @@ import me.softsheep6.explorersCore.items.event.Crown;
 import me.softsheep6.explorersCore.items.event.DragonEgg;
 import me.softsheep6.explorersCore.items.event.InfinityTotem;
 import me.softsheep6.explorersCore.items.event.LightningSword;
-import me.softsheep6.explorersCore.miscListeners.*;
+import me.softsheep6.explorersCore.misc_listeners.*;
+//import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
 import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -36,6 +37,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE);
     public ItemStack bread = new ItemStack(Material.BREAD);
     public ItemStack job = new ItemStack(Material.MAP);
+    public ItemStack inferno = new ItemStack(Material.BLAZE_ROD);
+    public ItemStack infernoblock = new ItemStack(Material.MAGMA_BLOCK);
     public Player playerWithEgg = null;
     @Override
     public void onEnable() {
@@ -55,6 +58,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MiningHammer(), this);
         getServer().getPluginManager().registerEvents(new EnrichedBread(), this);
         getServer().getPluginManager().registerEvents(new JobApplication(), this);
+//        getServer().getPluginManager().registerEvents(new BlazeDeath(), this);
+        getServer().getPluginManager().registerEvents(new DisablePlacingInfernoBlock(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -146,7 +151,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         assert breadMeta != null;
         breadMeta.setLore(lore5);
         breadMeta.setDisplayName(ChatColor.RESET + "Enriched Bread");
-        breadMeta.setRarity(ItemRarity.UNCOMMON);
+        breadMeta.setRarity(ItemRarity.COMMON);
         breadMeta.addEnchant(Enchantment.MENDING, 1, true);
         breadMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         FoodComponent breadFood = breadMeta.getFood();
@@ -168,12 +173,41 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         assert jobMeta != null;
         jobMeta.setLore(lore6);
         jobMeta.setDisplayName(ChatColor.RESET + "Job Application");
-        jobMeta.setRarity(ItemRarity.RARE);
+        jobMeta.setRarity(ItemRarity.UNCOMMON);
         jobMeta.addEnchant(Enchantment.MENDING, 1, true);
         jobMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         job.setItemMeta(jobMeta);
 
+        // inferno rod
+        List<String> lore7 = new ArrayList<>();
+        lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Used to craft Inferno Block");
+        lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  10% chance to drop from blazes");
+        lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  (+1% per looting level)");
+        lore7.add("");
+        lore7.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTING INGREDIENT");
+        ItemMeta infernoMeta = inferno.getItemMeta();
+        assert infernoMeta != null;
+        infernoMeta.setLore(lore7);
+        infernoMeta.setDisplayName(ChatColor.RESET + "Inferno Rod");
+        infernoMeta.setRarity(ItemRarity.UNCOMMON);
+        infernoMeta.addEnchant(Enchantment.FLAME, 1, true);
+        infernoMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        inferno.setItemMeta(infernoMeta);
 
+        // inferno block
+        List<String> lore8 = new ArrayList<>();
+        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Used to brew potions with both increased");
+        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  duration and increased strength!");
+        lore8.add("");
+        lore8.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta infernoblockMeta = infernoblock.getItemMeta();
+        assert infernoblockMeta != null;
+        infernoblockMeta.setLore(lore8);
+        infernoblockMeta.setDisplayName(ChatColor.RESET + "Inferno Block");
+        infernoblockMeta.setRarity(ItemRarity.UNCOMMON);
+        infernoblockMeta.addEnchant(Enchantment.FLAME, 1, true);
+        infernoblockMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        infernoblock.setItemMeta(infernoblockMeta);
 
 
 
@@ -208,6 +242,17 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         jobRecipe.setIngredient('H', Material.SMITHING_TABLE);
         jobRecipe.setIngredient('I', Material.FLETCHING_TABLE);
         Bukkit.addRecipe(jobRecipe);
+
+        // inferno block
+        ShapedRecipe infernoblockRecipe = new ShapedRecipe(new NamespacedKey(this, "infernoblock"), infernoblock);
+        infernoblockRecipe.shape("RIG" ,"ILI", "GIR");
+        infernoblockRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
+        infernoblockRecipe.setIngredient('G', Material.GLOWSTONE);
+        infernoblockRecipe.setIngredient('L', Material.REDSTONE_LAMP);
+        infernoblockRecipe.setIngredient('I', new RecipeChoice.ExactChoice(inferno));
+        Bukkit.addRecipe(infernoblockRecipe);
+
+
 
     }
 

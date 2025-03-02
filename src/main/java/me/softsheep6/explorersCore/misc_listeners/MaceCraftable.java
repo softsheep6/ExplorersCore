@@ -1,4 +1,4 @@
-package me.softsheep6.explorersCore.miscListeners;
+package me.softsheep6.explorersCore.misc_listeners;
 
 import me.softsheep6.explorersCore.ExplorersCore;
 import org.bukkit.Bukkit;
