@@ -9,6 +9,8 @@ plugin for the Explorers SMP !
 
 ### craftable items added:
 * mining hammer (mines 3x3x1 area)
+* enriched bread (instantly grows baby villagers)
+* job application (resets villager trades on right click)
 
 
 ### more coming soon!
