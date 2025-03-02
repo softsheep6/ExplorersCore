@@ -1,5 +1,6 @@
-package me.softsheep6.explorersCore;
+package me.softsheep6.explorersCore.items.event;
 
+import me.softsheep6.explorersCore.ExplorersCore;
 import me.softsheep6.explorersCore.tasks.DamageAfterLightningTask;
 import me.softsheep6.explorersCore.tasks.LightningCooldownTask;
 import org.bukkit.Location;

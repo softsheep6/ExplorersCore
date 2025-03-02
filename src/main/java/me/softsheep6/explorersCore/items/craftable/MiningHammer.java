@@ -1,4 +1,4 @@
-package me.softsheep6.explorersCore;
+package me.softsheep6.explorersCore.items.craftable;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;

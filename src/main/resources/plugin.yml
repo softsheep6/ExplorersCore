@@ -19,6 +19,14 @@ commands:
     description: Gives the Mining Hammer
     permission: explorerscore.hammer
     usage: /<command>
+  givebread:
+    description: Gives a loaf of Enriched Bread
+    permission: explorerscore.bread
+    usage: /<command>
+  giveapplication:
+    description: Gives a Job Application
+    permission: explorerscore.job
+    usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted
     permission: explorerscore.togglemacecraftable

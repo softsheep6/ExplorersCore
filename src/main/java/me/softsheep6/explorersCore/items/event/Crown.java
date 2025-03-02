@@ -1,4 +1,4 @@
-package me.softsheep6.explorersCore;
+package me.softsheep6.explorersCore.items.event;
 
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.enchantments.Enchantment;

@@ -1,5 +1,12 @@
 package me.softsheep6.explorersCore;
 
+import me.softsheep6.explorersCore.items.craftable.EnrichedBread;
+import me.softsheep6.explorersCore.items.craftable.JobApplication;
+import me.softsheep6.explorersCore.items.craftable.MiningHammer;
+import me.softsheep6.explorersCore.items.event.Crown;
+import me.softsheep6.explorersCore.items.event.DragonEgg;
+import me.softsheep6.explorersCore.items.event.InfinityTotem;
+import me.softsheep6.explorersCore.items.event.LightningSword;
 import me.softsheep6.explorersCore.miscListeners.*;
 import me.softsheep6.explorersCore.tasks.CheckForEggTask;
 import org.bukkit.*;
@@ -10,11 +17,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.EquipmentSlotGroup;
-import org.bukkit.inventory.ItemRarity;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +34,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack crown = new ItemStack(Material.GOLDEN_HELMET);
     public ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
     public ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE);
-    public boolean maceCraftable = true;
+    public ItemStack bread = new ItemStack(Material.BREAD);
+    public ItemStack job = new ItemStack(Material.MAP);
     public Player playerWithEgg = null;
     @Override
     public void onEnable() {
@@ -47,6 +53,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new StringDispenser(), this);
         getServer().getPluginManager().registerEvents(new DisableCrafterCraftingMace(), this);
         getServer().getPluginManager().registerEvents(new MiningHammer(), this);
+        getServer().getPluginManager().registerEvents(new EnrichedBread(), this);
+        getServer().getPluginManager().registerEvents(new JobApplication(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -126,10 +134,53 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         hammerMeta.addEnchant(Enchantment.POWER, 1, true);
         hammer.setItemMeta(hammerMeta);
 
+        //bread
+        List<String> lore5 = new ArrayList<>();
+        lore5.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "don't mind the metallic taste that's just the nutrients!!");
+        lore5.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right clicking on a baby villager will instantly turn");
+        lore5.add(ChatColor.RESET + "" + ChatColor.WHITE + "  it into an adult!");
+        lore5.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Can also be eaten by players!");
+        lore5.add("");
+        lore5.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta breadMeta = hammer.getItemMeta();
+        assert breadMeta != null;
+        breadMeta.setLore(lore5);
+        breadMeta.setDisplayName(ChatColor.RESET + "Enriched Bread");
+        breadMeta.setRarity(ItemRarity.UNCOMMON);
+        breadMeta.addEnchant(Enchantment.MENDING, 1, true);
+        breadMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        FoodComponent breadFood = breadMeta.getFood();
+        breadFood.setNutrition(8);
+        System.out.println(breadFood);
+        breadMeta.setFood(breadFood);
+        System.out.println(breadMeta);
+        bread.setItemMeta(breadMeta);
+
+        //job application
+        List<String> lore6 = new ArrayList<>();
+        lore6.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "unemployment rates drop to ZERO");
+        lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right clicking on an employed villager (that");
+        lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  hasn't been traded with) resets its job, giving");
+        lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  it new trades!");
+        lore6.add("");
+        lore6.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta jobMeta = hammer.getItemMeta();
+        assert jobMeta != null;
+        jobMeta.setLore(lore6);
+        jobMeta.setDisplayName(ChatColor.RESET + "Job Application");
+        jobMeta.setRarity(ItemRarity.RARE);
+        jobMeta.addEnchant(Enchantment.MENDING, 1, true);
+        jobMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        job.setItemMeta(jobMeta);
+
+
+
 
 
 
         // recipes !
+
+        // hammer
         ShapedRecipe hammerRecipe = new ShapedRecipe(new NamespacedKey(this, "hammer"), hammer);
         hammerRecipe.shape("ABA" ," C ", " C ");
         hammerRecipe.setIngredient('A', Material.DIAMOND_BLOCK);
@@ -137,10 +188,31 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         hammerRecipe.setIngredient('C', Material.BREEZE_ROD);
         Bukkit.addRecipe(hammerRecipe);
 
+        // bread
+        ShapedRecipe breadRecipe = new ShapedRecipe(new NamespacedKey(this, "bread"), bread);
+        breadRecipe.shape("AAA" ," B ", "AAA");
+        breadRecipe.setIngredient('A', Material.WHEAT);
+        breadRecipe.setIngredient('B', Material.EMERALD);
+        Bukkit.addRecipe(breadRecipe);
+
+        //job
+        ShapedRecipe jobRecipe = new ShapedRecipe(new NamespacedKey(this, "job"), job);
+        jobRecipe.shape("ABC" ,"DEF", "GHI");
+        jobRecipe.setIngredient('A', Material.BREWING_STAND);
+        jobRecipe.setIngredient('B', Material.LECTERN);
+        jobRecipe.setIngredient('C', Material.GRINDSTONE);
+        jobRecipe.setIngredient('D', Material.BLAST_FURNACE);
+        jobRecipe.setIngredient('E', Material.WRITABLE_BOOK);
+        jobRecipe.setIngredient('F', Material.COMPOSTER);
+        jobRecipe.setIngredient('G', Material.BARREL);
+        jobRecipe.setIngredient('H', Material.SMITHING_TABLE);
+        jobRecipe.setIngredient('I', Material.FLETCHING_TABLE);
+        Bukkit.addRecipe(jobRecipe);
+
     }
 
-    // commands!! all of these r operator only. the first 4 will give you the item in their names, 4th one
-    // toggles whether or not the mace can be crafted, 5th one toggles pvp
+    // commands!! all of these r operator only. the first 4 will give you the item in their names, 5th one
+    // toggles whether or not the mace can be crafted
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -152,6 +224,10 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             if (sender instanceof Player player) player.getInventory().addItem(sword);
         } else if (command.getName().equalsIgnoreCase("givehammer")) {
             if (sender instanceof Player player) player.getInventory().addItem(hammer);
+        } else if (command.getName().equalsIgnoreCase("givebread")) {
+            if (sender instanceof Player player) player.getInventory().addItem(bread);
+        } else if (command.getName().equalsIgnoreCase("giveapplication")) {
+            if (sender instanceof Player player) player.getInventory().addItem(job);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {
                 // uses persistent data containers. i freaking LOVE these things now
@@ -165,7 +241,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                     data.set(key, PersistentDataType.BOOLEAN, true);
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.RED + "disabled!");
                 }
-                System.out.println(data.get(key, PersistentDataType.BOOLEAN));
             }
         }
 

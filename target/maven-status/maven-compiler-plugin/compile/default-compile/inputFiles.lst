@@ -1,9 +1,11 @@
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\Crown.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\DragonEgg.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\ExplorersCore.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\InfinityTotem.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\LightningSword.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\MiningHammer.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\EnrichedBread.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\JobApplication.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\MiningHammer.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\Crown.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\DragonEgg.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\InfinityTotem.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\LightningSword.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\DisableCrafterCraftingMace.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\MaceCraftable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\miscListeners\NetheriteArmorUnequippable.java

@@ -1,7 +1,7 @@
 package me.softsheep6.explorersCore.tasks;
 
 import me.softsheep6.explorersCore.ExplorersCore;
-import me.softsheep6.explorersCore.LightningSword;
+import me.softsheep6.explorersCore.items.event.LightningSword;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
