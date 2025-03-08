@@ -223,11 +223,18 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         Bukkit.addRecipe(hammerRecipe);
 
         // bread
-        ShapedRecipe breadRecipe = new ShapedRecipe(new NamespacedKey(this, "bread"), bread);
+        ShapedRecipe breadRecipe = new ShapedRecipe(new NamespacedKey(this, "bread_wheat"), bread);
         breadRecipe.shape("AAA" ," B ", "AAA");
         breadRecipe.setIngredient('A', Material.WHEAT);
         breadRecipe.setIngredient('B', Material.EMERALD);
         Bukkit.addRecipe(breadRecipe);
+
+        // bread 2
+        ShapedRecipe breadRecipe2 = new ShapedRecipe(new NamespacedKey(this, "bread_bread"), bread);
+        breadRecipe2.shape(" A " ," B ", " A ");
+        breadRecipe2.setIngredient('A', Material.BREAD);
+        breadRecipe2.setIngredient('B', Material.EMERALD);
+        Bukkit.addRecipe(breadRecipe2);
 
         //job
         ShapedRecipe jobRecipe = new ShapedRecipe(new NamespacedKey(this, "job"), job);
