@@ -25,8 +25,8 @@ public class MiningHammer implements Listener {
         // checks if block breaking mode is set to 1 (3x3x1)
         if (holdingHammer(event.getPlayer()) == 1) {
 
-            // this is probably not very good but It Workz
-            // used to find direction based on getBlockFace buttt im not really sure how to transfer that across event handlers
+            // probably not very good but It Workz
+            // this used to find direction based on getBlockFace buttt im not really sure how to transfer that across event handlers
             // soo instead its just based off of p.getPitch and p.getFacing which is basically the same thing
             // just a little different depending on how ur facing BUT ITS ALRIGHTTY!
             if (p.getLocation().getPitch() < -45 || p.getLocation().getPitch() > 45) {
@@ -91,9 +91,9 @@ public class MiningHammer implements Listener {
     // returns 1 if player is holding hammer set to 3x3x1 . did this need its own method? maybe. its up to you. idk.
     public int holdingHammer(Player player) {
         ItemStack tool = player.getInventory().getItemInMainHand();
-        if (tool.getType().equals(Material.DIAMOND_PICKAXE) && tool.getEnchantmentLevel(Enchantment.POWER) == 1)
+        if ((tool.getType().equals(Material.DIAMOND_PICKAXE) || tool.getType().equals(Material.NETHERITE_PICKAXE)) && tool.getEnchantmentLevel(Enchantment.POWER) == 1)
             return 0;
-        else if (tool.getType().equals(Material.DIAMOND_PICKAXE) && tool.getEnchantmentLevel(Enchantment.POWER) == 3)
+        else if ((tool.getType().equals(Material.DIAMOND_PICKAXE) || tool.getType().equals(Material.NETHERITE_PICKAXE)) && tool.getEnchantmentLevel(Enchantment.POWER) == 3)
             return 1;
         return -1;
     }
