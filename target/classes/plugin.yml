@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '1.3.0'
+version: '2.0.0'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -27,7 +27,23 @@ commands:
     description: Gives a Job Application
     permission: explorerscore.job
     usage: /<command>
+  giveaxe:
+    description: Gives the Axe of Swiftness
+    permission: explorerscore.axe
+    usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted
     permission: explorerscore.togglemacecraftable
+    usage: /<command>
+  togglepvp:
+    description: Toggles PVP
+    permission: explorerscore.togglepvp
+    usage: /<command>
+  toggleend:
+    description: Toggles whether or not eyes of ender can be placed on end portal frames
+    permission: explorerscore.toggleend
+    usage: /<command>
+  togglestringduper:
+    description: Toggles string dupers
+    permission: explorerscore.togglestringduper
     usage: /<command>

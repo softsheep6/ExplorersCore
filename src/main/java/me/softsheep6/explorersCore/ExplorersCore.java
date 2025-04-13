@@ -3,13 +3,10 @@ package me.softsheep6.explorersCore;
 import me.softsheep6.explorersCore.items.craftable.EnrichedBread;
 import me.softsheep6.explorersCore.items.craftable.JobApplication;
 import me.softsheep6.explorersCore.items.craftable.MiningHammer;
-import me.softsheep6.explorersCore.items.event.Crown;
-import me.softsheep6.explorersCore.items.event.DragonEgg;
-import me.softsheep6.explorersCore.items.event.InfinityTotem;
-import me.softsheep6.explorersCore.items.event.LightningSword;
+import me.softsheep6.explorersCore.items.event.*;
 import me.softsheep6.explorersCore.misc_listeners.*;
-//import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
-import me.softsheep6.explorersCore.tasks.CheckForEggTask;
+import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
+import me.softsheep6.explorersCore.tasks.GiveEventItemEffects;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -20,11 +17,16 @@ import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.jeff_media.armorequipevent.ArmorEquipEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +36,16 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
     public ItemStack crown = new ItemStack(Material.GOLDEN_HELMET);
     public ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
+    public ItemStack axe = new ItemStack(Material.DIAMOND_AXE);
     public ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE);
     public ItemStack bread = new ItemStack(Material.BREAD);
     public ItemStack job = new ItemStack(Material.MAP);
     public ItemStack inferno = new ItemStack(Material.BLAZE_ROD);
     public ItemStack infernoblock = new ItemStack(Material.MAGMA_BLOCK);
+    public ItemStack combatPotion = new ItemStack(Material.SPLASH_POTION);
+    public ItemStack commercePotion = new ItemStack(Material.SPLASH_POTION);
     public Player playerWithEgg = null;
+    public Player playerWithAxe = null;
     @Override
     public void onEnable() {
         System.out.println("Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
@@ -58,13 +64,22 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new MiningHammer(), this);
         getServer().getPluginManager().registerEvents(new EnrichedBread(), this);
         getServer().getPluginManager().registerEvents(new JobApplication(), this);
-//        getServer().getPluginManager().registerEvents(new BlazeDeath(), this);
+        getServer().getPluginManager().registerEvents(new AxeOfSwiftness(), this);
+        getServer().getPluginManager().registerEvents(new ToggleEndPortal(), this);
+        getServer().getPluginManager().registerEvents(new BlazeDeath(), this);
         getServer().getPluginManager().registerEvents(new DisablePlacingInfernoBlock(), this);
+        getServer().getPluginManager().registerEvents(new ProtectEventItems(), this);
 
         ArmorEquipEvent.registerListener(this);
 
         // checks if someones holding dragon egg every tick
-        new CheckForEggTask(this).runTaskTimer(this, 0, 1);
+        new GiveEventItemEffects(this).runTaskTimer(this, 0, 1);
+
+        World world = Bukkit.getWorlds().getFirst();
+        NamespacedKey key = new NamespacedKey(this, "pvp");
+        PersistentDataContainer data = world.getPersistentDataContainer();
+        if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN)))
+            world.setPVP(false);
 
 
         // the giant blocks of code below are for each item and are used in their respective classes!!!
@@ -124,6 +139,22 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         swordMeta.addEnchant(Enchantment.CHANNELING, 1, true);
         sword.setItemMeta(swordMeta);
 
+        // axe
+        List<String> lore9 = new ArrayList<>();
+        lore9.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Run like the wind...");
+        lore9.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "Right click to dash forward!");
+        lore9.add(ChatColor.RESET + " " + ChatColor.WHITE + " Dashing has a 4 second cooldown");
+        lore9.add(ChatColor.RESET + " " + ChatColor.WHITE + " Also grants Speed II while holding!");
+        lore9.add("");
+        lore9.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
+        ItemMeta axeMeta = axe.getItemMeta();
+        assert axeMeta != null;
+        axeMeta.setLore(lore9);
+        axeMeta.setDisplayName(ChatColor.RESET + "Axe of Swiftness");
+        axeMeta.setRarity(ItemRarity.EPIC);
+        axeMeta.addEnchant(Enchantment.SWIFT_SNEAK, 1, true);
+        axe.setItemMeta(axeMeta);
+
         // hammer
         List<String> lore4 = new ArrayList<>();
         lore4.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Brought to you by GregoriousT");
@@ -156,9 +187,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         breadMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         FoodComponent breadFood = breadMeta.getFood();
         breadFood.setNutrition(8);
-        System.out.println(breadFood);
         breadMeta.setFood(breadFood);
-        System.out.println(breadMeta);
         bread.setItemMeta(breadMeta);
 
         //job application
@@ -180,7 +209,6 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // inferno rod
         List<String> lore7 = new ArrayList<>();
-        lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Used to craft Inferno Block");
         lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  10% chance to drop from blazes");
         lore7.add(ChatColor.RESET + "" + ChatColor.WHITE + "  (+1% per looting level)");
         lore7.add("");
@@ -196,8 +224,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // inferno block
         List<String> lore8 = new ArrayList<>();
-        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Used to brew potions with both increased");
-        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  duration and increased strength!");
+        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Currently unused :(");
         lore8.add("");
         lore8.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
         ItemMeta infernoblockMeta = infernoblock.getItemMeta();
@@ -208,6 +235,38 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         infernoblockMeta.addEnchant(Enchantment.FLAME, 1, true);
         infernoblockMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         infernoblock.setItemMeta(infernoblockMeta);
+
+        // potion of combat
+        List<String> lore10 = new ArrayList<>();
+        lore10.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Combines the effects of multiple combat");
+        lore10.add(ChatColor.RESET + "" + ChatColor.WHITE + "  related potions! Lasts for 3 minutes.");
+        lore10.add("");
+        lore10.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        PotionMeta combatPotionMeta = (PotionMeta) combatPotion.getItemMeta();
+        assert combatPotionMeta != null;
+        combatPotionMeta.setLore(lore10);
+        combatPotionMeta.setDisplayName(ChatColor.RESET + "Potion of Combat");
+        infernoblockMeta.setRarity(ItemRarity.COMMON);
+        combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 3600, 0), true);
+        combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.STRENGTH, 3600, 1), true);
+        combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3600, 0), true);
+        combatPotionMeta.setColor(Color.MAROON);
+        combatPotion.setItemMeta(combatPotionMeta);
+
+        // potion of commerce
+        List<String> lore11 = new ArrayList<>();
+        lore11.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Grants villager economy insider knowledge...");
+        lore11.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Lasts for 30 minutes.");
+        lore11.add("");
+        lore11.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        PotionMeta commercePotionMeta = (PotionMeta) commercePotion.getItemMeta();
+        assert commercePotionMeta != null;
+        commercePotionMeta.setLore(lore11);
+        commercePotionMeta.setDisplayName(ChatColor.RESET + "Potion of Commerce");
+        infernoblockMeta.setRarity(ItemRarity.COMMON);
+        commercePotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE, 36000, 2), true);
+        commercePotionMeta.setColor(Color.LIME);
+        commercePotion.setItemMeta(commercePotionMeta);
 
 
 
@@ -252,12 +311,33 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // inferno block
         ShapedRecipe infernoblockRecipe = new ShapedRecipe(new NamespacedKey(this, "infernoblock"), infernoblock);
-        infernoblockRecipe.shape("RIG" ,"ILI", "GIR");
-        infernoblockRecipe.setIngredient('R', Material.REDSTONE_BLOCK);
-        infernoblockRecipe.setIngredient('G', Material.GLOWSTONE);
-        infernoblockRecipe.setIngredient('L', Material.REDSTONE_LAMP);
+        infernoblockRecipe.shape("II", "II");
         infernoblockRecipe.setIngredient('I', new RecipeChoice.ExactChoice(inferno));
         Bukkit.addRecipe(infernoblockRecipe);
+
+        // potion of combat
+        ShapedRecipe combatPotionRecipe = new ShapedRecipe(new NamespacedKey(this, "combatpotion"), combatPotion);
+        combatPotionRecipe.shape("NIN", "BSM", "NWN");
+        combatPotionRecipe.setIngredient('N', Material.NETHER_WART);
+        combatPotionRecipe.setIngredient('I', new RecipeChoice.ExactChoice(inferno));
+        combatPotionRecipe.setIngredient('B', Material.BLAZE_POWDER);
+        combatPotionRecipe.setIngredient('S', Material.SUGAR);
+        combatPotionRecipe.setIngredient('M', Material.MAGMA_CREAM);
+        ItemStack waterbottle = new ItemStack(Material.POTION);
+        PotionMeta watermeta = (PotionMeta) waterbottle.getItemMeta();
+        assert watermeta != null;
+        watermeta.setBasePotionType(PotionType.WATER);
+        waterbottle.setItemMeta(watermeta); // why does it take a whole 5 lines to make a water bottle this is an outrage!!!!!!!!!!!!!!
+        combatPotionRecipe.setIngredient('W', new RecipeChoice.ExactChoice(waterbottle));
+        Bukkit.addRecipe(combatPotionRecipe);
+
+        // potion of combat
+        ShapedRecipe commercePotionRecipe = new ShapedRecipe(new NamespacedKey(this, "commercepotion"), commercePotion);
+        commercePotionRecipe.shape("EEE", "EWE", "EEE");
+        commercePotionRecipe.setIngredient('E', Material.EMERALD_BLOCK);
+        commercePotionRecipe.setIngredient('W', new RecipeChoice.ExactChoice(waterbottle));
+        Bukkit.addRecipe(commercePotionRecipe);
+
 
 
 
@@ -267,7 +347,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     // toggles whether or not the mace can be crafted
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
         if (command.getName().equalsIgnoreCase("givetotem")) {
             if (sender instanceof Player player) player.getInventory().addItem(totem);
         } else if (command.getName().equalsIgnoreCase("givecrown")) {
@@ -280,6 +360,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             if (sender instanceof Player player) player.getInventory().addItem(bread);
         } else if (command.getName().equalsIgnoreCase("giveapplication")) {
             if (sender instanceof Player player) player.getInventory().addItem(job);
+        } else if (command.getName().equalsIgnoreCase("giveaxe")) {
+            if (sender instanceof Player player) player.getInventory().addItem(axe);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {
                 // uses persistent data containers. i freaking LOVE these things now
@@ -292,6 +374,47 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.RED + "disabled!");
+                }
+            }
+        } else if (command.getName().equalsIgnoreCase("togglepvp")) {
+            if (sender instanceof Player player) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "pvp");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.GREEN +"enabled!");
+                    world.setPVP(true);
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.RED + "disabled!");
+                    world.setPVP(false);
+                }
+            }
+        } else if (command.getName().equalsIgnoreCase("toggleend")) {
+            if (sender instanceof Player player) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "end");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.GREEN +"enabled!");
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.RED + "disabled!");
+                }
+            }
+        } else if (command.getName().equalsIgnoreCase("togglestringduper")) {
+            if (sender instanceof Player player) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "stringduper");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.GREEN +"enabled!");
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.RED + "disabled!");
                 }
             }
         }

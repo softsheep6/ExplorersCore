@@ -68,6 +68,8 @@ public class DragonEgg implements Listener {
             lore.add(ChatColor.RESET + " " + ChatColor.WHITE + " and receive 10 seconds of Resistance I!");
             lore.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Holding the egg grants Strength II and ");
             lore.add(ChatColor.RESET + " " + ChatColor.WHITE + " Fire Resistance!");
+            lore.add("");
+            lore.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
 
             // checks which hand the egg is in, adds the meta to it
             if (inMainHand) {

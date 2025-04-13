@@ -13,7 +13,7 @@ import java.util.*;
 
 // commented until brewing shenanigans is done
 
-/*
+
 // SO MUCH STOLEN CODE!!!! WOW!!! ALL CREDITS GO TO https://www.spigotmc.org/threads/help-with-custom-loot-tables.514477/#post-4208461 !!!!
 // YOU CANNOT MAKE ME LEARN DATAPACKS PLUGINS ARE ALL I NEED
 public class BlazeLoot implements LootTable {
@@ -60,4 +60,3 @@ public class BlazeLoot implements LootTable {
         return new NamespacedKey(ExplorersCore.getPlugin(), "inferno_rod_loot");
     }
 }
-*/
