@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '2.0.0'
+version: '2.0.1'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -30,6 +30,10 @@ commands:
   giveaxe:
     description: Gives the Axe of Swiftness
     permission: explorerscore.axe
+    usage: /<command>
+  giverod:
+    description: Gives an Inferno Rod
+    permission: explorerscore.rod
     usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted

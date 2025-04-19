@@ -1,9 +1,7 @@
 package me.softsheep6.explorersCore.misc_listeners;
 
 import me.softsheep6.explorersCore.ExplorersCore;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -18,11 +16,22 @@ public class MaceCraftable implements Listener {
         Recipe recipe = event.getRecipe();
         List<Recipe> list = Bukkit.getRecipesFor(new ItemStack(Material.MACE));
         Recipe maceRecipe = list.getFirst();
+        World world = Bukkit.getWorlds().getFirst();
 
         // uses persistent data container from main class!
         // also Very short if statement:
-        if (recipe.getResult().equals(maceRecipe.getResult()) && Boolean.TRUE.equals(Bukkit.getWorlds().getFirst().getPersistentDataContainer().get(new NamespacedKey(ExplorersCore.getPlugin(), "macecraftable"), PersistentDataType.BOOLEAN))) {
-            event.setCancelled(true);
+        if (recipe.getResult().equals(maceRecipe.getResult())) {
+            if (Boolean.TRUE.equals(world.getPersistentDataContainer().get(new NamespacedKey(ExplorersCore.getPlugin(), "macecraftable"), PersistentDataType.BOOLEAN)))
+                event.setCancelled(true);
+            else {
+                world.getPersistentDataContainer().set(new NamespacedKey(ExplorersCore.getPlugin(), "macecraftable"), PersistentDataType.BOOLEAN, Boolean.TRUE);
+                Bukkit.broadcastMessage(ChatColor.DARK_RED + "!! THE MACE HAS BEEN CRAFTED !!");
+                Bukkit.broadcastMessage(ChatColor.DARK_RED + "!! THE MACE HAS BEEN CRAFTED !!");
+                Bukkit.broadcastMessage(ChatColor.DARK_RED + "!! THE MACE HAS BEEN CRAFTED !!");
+                event.getWhoClicked().sendMessage(ChatColor.DARK_GRAY + "congrats on the mace :)");
+            }
         }
+
+
     }
 }

@@ -44,6 +44,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack infernoblock = new ItemStack(Material.MAGMA_BLOCK);
     public ItemStack combatPotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack commercePotion = new ItemStack(Material.SPLASH_POTION);
+    public ItemStack certificate = new ItemStack(Material.MOJANG_BANNER_PATTERN);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
@@ -69,6 +70,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new BlazeDeath(), this);
         getServer().getPluginManager().registerEvents(new DisablePlacingInfernoBlock(), this);
         getServer().getPluginManager().registerEvents(new ProtectEventItems(), this);
+        getServer().getPluginManager().registerEvents(new ProtectSpawnPlatform(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -192,7 +194,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         //job application
         List<String> lore6 = new ArrayList<>();
-        lore6.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "unemployment rates drop to ZERO");
+        lore6.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Unemployment rates drop to ZERO");
         lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right clicking on an employed villager (that");
         lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  hasn't been traded with) resets its job, giving");
         lore6.add(ChatColor.RESET + "" + ChatColor.WHITE + "  it new trades!");
@@ -246,7 +248,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         assert combatPotionMeta != null;
         combatPotionMeta.setLore(lore10);
         combatPotionMeta.setDisplayName(ChatColor.RESET + "Potion of Combat");
-        infernoblockMeta.setRarity(ItemRarity.COMMON);
+        combatPotionMeta.setRarity(ItemRarity.UNCOMMON);
         combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 3600, 0), true);
         combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.STRENGTH, 3600, 1), true);
         combatPotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3600, 0), true);
@@ -263,10 +265,25 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         assert commercePotionMeta != null;
         commercePotionMeta.setLore(lore11);
         commercePotionMeta.setDisplayName(ChatColor.RESET + "Potion of Commerce");
-        infernoblockMeta.setRarity(ItemRarity.COMMON);
+        commercePotionMeta.setRarity(ItemRarity.COMMON);
         commercePotionMeta.addCustomEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE, 36000, 2), true);
         commercePotionMeta.setColor(Color.LIME);
         commercePotion.setItemMeta(commercePotionMeta);
+
+        // certificate of not being a noob anymore ........
+        // secret item ooooo its another gregtech reference wow
+        // i hope that someone makes this!
+        List<String> lore12 = new ArrayList<>();
+        lore12.add(ChatColor.GRAY + "Challenge Accepted!");
+        ItemMeta certificateMeta = certificate.getItemMeta();
+        assert certificateMeta != null;
+        certificateMeta.setLore(lore12);
+        certificateMeta.setDisplayName(ChatColor.RESET + "Certificate of Not Being a Noob Anymore");
+        certificateMeta.setRarity(ItemRarity.EPIC);
+        certificate.setItemMeta(certificateMeta);
+        ShapelessRecipe certificateRecipe = new ShapelessRecipe(new NamespacedKey(this, "certficiate"), certificate);
+        certificateRecipe.addIngredient(9, Material.NETHERITE_BLOCK);
+        Bukkit.addRecipe(certificateRecipe);
 
 
 
@@ -339,12 +356,10 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         Bukkit.addRecipe(commercePotionRecipe);
 
 
-
-
     }
 
-    // commands!! all of these r operator only. the first 4 will give you the item in their names, 5th one
-    // toggles whether or not the mace can be crafted
+    // commands!! all of these r operator only. names should be self explanatory
+    // (toggleend disables placing eyes in frames, togglestringduper disables the string duper in StringDispenser.java)
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
@@ -362,6 +377,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             if (sender instanceof Player player) player.getInventory().addItem(job);
         } else if (command.getName().equalsIgnoreCase("giveaxe")) {
             if (sender instanceof Player player) player.getInventory().addItem(axe);
+        } else if (command.getName().equalsIgnoreCase("giverod")) {
+            if (sender instanceof Player player) player.getInventory().addItem(inferno);
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {
                 // uses persistent data containers. i freaking LOVE these things now
@@ -425,27 +442,4 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public static ExplorersCore getPlugin() {
         return plugin;
     }
-
-
-
-
-
-    // stupid dumb not working WHATEVER begone BANISHED TO THE DEPTHS OF EXPLORERSCORE DOT JAVA
-    /* else if (command.getName().equalsIgnoreCase("togglepvp")) {
-            if (sender instanceof Player player) {
-                World world = Bukkit.getWorlds().getFirst();
-                NamespacedKey key = new NamespacedKey(this, "pvp");
-                PersistentDataContainer data = world.getPersistentDataContainer();
-                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
-                    data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.GREEN +"enabled!");
-                    world.setPVP(true);
-                } else {
-                    data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.RED + "disabled!");
-                    world.setPVP(false);
-                }
-            }
-        }
-     */
 }
