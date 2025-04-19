@@ -1,3 +1,4 @@
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\commands\SpawnProtection.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\ExplorersCore.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\EnrichedBread.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\JobApplication.java
@@ -10,6 +11,7 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\ev
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\loot_tables\BlazeLoot.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\death_listeners\BlazeDeath.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\DisableCrafterCraftingMace.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\DisableEnderPearls.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\DisablePlacingInfernoBlock.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\MaceCraftable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\NetheriteArmorUnequippable.java

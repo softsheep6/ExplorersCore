@@ -51,3 +51,11 @@ commands:
     description: Toggles string dupers
     permission: explorerscore.togglestringduper
     usage: /<command>
+  toggleenderpearls:
+    description: Toggles ender pearls
+    permission: explorerscore.toggleenderpearls
+    usage: /<command>
+  spawnprotection:
+    description: Changes size of blocks protected from placing/breaking surrounding 0, 0, 0.
+    permission: explorerscore.spawnprotection
+    usage: /<command>

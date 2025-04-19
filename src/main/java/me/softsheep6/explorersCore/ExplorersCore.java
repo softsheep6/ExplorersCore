@@ -1,5 +1,6 @@
 package me.softsheep6.explorersCore;
 
+import me.softsheep6.explorersCore.commands.SpawnProtection;
 import me.softsheep6.explorersCore.items.craftable.EnrichedBread;
 import me.softsheep6.explorersCore.items.craftable.JobApplication;
 import me.softsheep6.explorersCore.items.craftable.MiningHammer;
@@ -71,8 +72,13 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new DisablePlacingInfernoBlock(), this);
         getServer().getPluginManager().registerEvents(new ProtectEventItems(), this);
         getServer().getPluginManager().registerEvents(new ProtectSpawnPlatform(), this);
+        getServer().getPluginManager().registerEvents(new DisableEnderPearls(), this);
 
         ArmorEquipEvent.registerListener(this);
+
+        // register commands
+        getCommand("spawnprotection").setExecutor(new SpawnProtection());
+
 
         // checks if someones holding dragon egg every tick
         new GiveEventItemEffects(this).runTaskTimer(this, 0, 1);
@@ -432,6 +438,19 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.RED + "disabled!");
+                }
+            }
+        } else if (command.getName().equalsIgnoreCase("toggleenderpearls")) {
+            if (sender instanceof Player player) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "enderpearls");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.GREEN +"enabled!");
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.RED + "disabled!");
                 }
             }
         }

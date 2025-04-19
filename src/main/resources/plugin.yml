@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '2.0.1'
+version: '2.0.2'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -50,4 +50,12 @@ commands:
   togglestringduper:
     description: Toggles string dupers
     permission: explorerscore.togglestringduper
+    usage: /<command>
+  toggleenderpearls:
+    description: Toggles ender pearls
+    permission: explorerscore.toggleenderpearls
+    usage: /<command>
+  spawnprotection:
+    description: Changes size of blocks protected from placing/breaking surrounding 0, 0, 0.
+    permission: explorerscore.spawnprotection
     usage: /<command>
