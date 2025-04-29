@@ -59,3 +59,7 @@ commands:
     description: Changes size of blocks protected from placing/breaking surrounding 0, 0, 0.
     permission: explorerscore.spawnprotection
     usage: /<command>
+  namecolor:
+    description: Sets a player's name color in tab list.
+    permission: explorerscore.namecolor
+    usage: /<command>

@@ -12,8 +12,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import javax.naming.Name;
-
 public class SpawnProtection implements CommandExecutor {
 
     @Override
@@ -60,7 +58,7 @@ public class SpawnProtection implements CommandExecutor {
                         }
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "do /spawnproteection set or /spawnprotection get !!!");
+                    player.sendMessage(ChatColor.RED + "do /spawnprotection set or /spawnprotection get !!!");
                 }
             }
         }

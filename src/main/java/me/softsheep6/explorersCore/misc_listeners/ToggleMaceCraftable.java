@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.List;
 
 // checks if the recipe crafted is the mace recipe, and that the mace craftable is set to false, and if so cancels the craft
-public class MaceCraftable implements Listener {
+public class ToggleMaceCraftable implements Listener {
     @EventHandler void onCraftItem (CraftItemEvent event) {
         Recipe recipe = event.getRecipe();
         List<Recipe> list = Bukkit.getRecipesFor(new ItemStack(Material.MACE));

@@ -1,5 +1,7 @@
 package me.softsheep6.explorersCore;
 
+import me.softsheep6.explorersCore.blocks.HeatedBrewingStand;
+import me.softsheep6.explorersCore.commands.NameColor;
 import me.softsheep6.explorersCore.commands.SpawnProtection;
 import me.softsheep6.explorersCore.items.craftable.EnrichedBread;
 import me.softsheep6.explorersCore.items.craftable.JobApplication;
@@ -58,7 +60,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new InfinityTotem(), this);
         getServer().getPluginManager().registerEvents(new Crown(), this);
         getServer().getPluginManager().registerEvents(new LightningSword(), this);
-        getServer().getPluginManager().registerEvents(new MaceCraftable(), this);
+        getServer().getPluginManager().registerEvents(new ToggleMaceCraftable(), this);
         getServer().getPluginManager().registerEvents(new NetheriteArmorUnequippable(), this);
         getServer().getPluginManager().registerEvents(new PreventGrindstoningItems(), this);
         getServer().getPluginManager().registerEvents(new StringDispenser(), this);
@@ -69,20 +71,23 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new AxeOfSwiftness(), this);
         getServer().getPluginManager().registerEvents(new ToggleEndPortal(), this);
         getServer().getPluginManager().registerEvents(new BlazeDeath(), this);
-        getServer().getPluginManager().registerEvents(new DisablePlacingInfernoBlock(), this);
         getServer().getPluginManager().registerEvents(new ProtectEventItems(), this);
         getServer().getPluginManager().registerEvents(new ProtectSpawnPlatform(), this);
-        getServer().getPluginManager().registerEvents(new DisableEnderPearls(), this);
+        getServer().getPluginManager().registerEvents(new ToggleEnderPearls(), this);
+        getServer().getPluginManager().registerEvents(new HeatedBrewingStand(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListHeader(), this);
 
         ArmorEquipEvent.registerListener(this);
 
         // register commands
         getCommand("spawnprotection").setExecutor(new SpawnProtection());
+        getCommand("namecolor").setExecutor(new NameColor());
 
 
         // checks if someones holding dragon egg every tick
         new GiveEventItemEffects(this).runTaskTimer(this, 0, 1);
 
+        // set pvp depending on /togglepvp command
         World world = Bukkit.getWorlds().getFirst();
         NamespacedKey key = new NamespacedKey(this, "pvp");
         PersistentDataContainer data = world.getPersistentDataContainer();
@@ -232,7 +237,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // inferno block
         List<String> lore8 = new ArrayList<>();
-        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Currently unused :(");
+        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Can be placed beneath a brewing stand");
+        lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  to convert it to a Heated Brewing Stand!");
         lore8.add("");
         lore8.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
         ItemMeta infernoblockMeta = infernoblock.getItemMeta();
@@ -367,24 +373,114 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     // commands!! all of these r operator only. names should be self explanatory
     // (toggleend disables placing eyes in frames, togglestringduper disables the string duper in StringDispenser.java)
     // also is it just me or is this whole method a little cramped like maybe i should add a little more whitespace or something
+
+    // PLEASE PLEASE turn the give commands into a separate command with arguments this is so unnecessarily long rn Y?!!
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
         if (command.getName().equalsIgnoreCase("givetotem")) {
-            if (sender instanceof Player player) player.getInventory().addItem(totem);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(totem);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(totem);
+            }
         } else if (command.getName().equalsIgnoreCase("givecrown")) {
-            if (sender instanceof Player player) player.getInventory().addItem(crown);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(crown);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(crown);
+            }
         } else if (command.getName().equalsIgnoreCase("givesword")) {
-            if (sender instanceof Player player) player.getInventory().addItem(sword);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(sword);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(sword);
+            }
         } else if (command.getName().equalsIgnoreCase("givehammer")) {
-            if (sender instanceof Player player) player.getInventory().addItem(hammer);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(hammer);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(hammer);
+            }
         } else if (command.getName().equalsIgnoreCase("givebread")) {
-            if (sender instanceof Player player) player.getInventory().addItem(bread);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(bread);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(bread);
+            }
         } else if (command.getName().equalsIgnoreCase("giveapplication")) {
-            if (sender instanceof Player player) player.getInventory().addItem(job);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(job);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(job);
+            }
         } else if (command.getName().equalsIgnoreCase("giveaxe")) {
-            if (sender instanceof Player player) player.getInventory().addItem(axe);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(axe);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(axe);
+            }
         } else if (command.getName().equalsIgnoreCase("giverod")) {
-            if (sender instanceof Player player) player.getInventory().addItem(inferno);
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(inferno);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(inferno);
+            }
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {
                 // uses persistent data containers. i freaking LOVE these things now

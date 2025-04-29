@@ -39,6 +39,10 @@
               <pattern>com.jeff_media.armorequipevent</pattern>
               <shadedPattern>me.softsheep6.explorersCore.armorequipevent</shadedPattern>
             </relocation>
+            <relocation>
+              <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+              <shadedPattern>me.softsheep6.morepersistentdatatypes</shadedPattern>
+            </relocation>
           </relocations>
         </configuration>
       </plugin>

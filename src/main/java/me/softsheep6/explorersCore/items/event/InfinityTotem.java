@@ -14,6 +14,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class InfinityTotem implements Listener {
 
+    private static Player totemPlayer = null; // this is so the player can be accessed from the effect task (also look its private not public im learning!!!)
+    // both methods below are also for effect task
+    public static Player getTotemPlayer() {return totemPlayer;}
+    public static void setTotemPlayer(Player totemPlayer) {InfinityTotem.totemPlayer = totemPlayer;}
+
     @EventHandler void onPlayerResurrect(EntityResurrectEvent event) {
         // VARIABLES !! player, totem, bla bla bla.
 
@@ -33,15 +38,17 @@ public class InfinityTotem implements Listener {
 
             // which hand?!?!
             if (player.getInventory().getItemInOffHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInOffHand().getType().equals(Material.TOTEM_OF_UNDYING)) {
+
                 player.getInventory().setItemInOffHand(totem);
                 player.setCooldown(totem, 1200); //1200
-                // cool sound effect yay
                 player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
+                totemPlayer = player;
             } else if (player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.MENDING) == 1 && player.getInventory().getItemInMainHand().getType().equals(Material.TOTEM_OF_UNDYING)) {
+
                 player.getInventory().setItemInMainHand(totem);
                 player.setCooldown(totem, 1200); //1200
-                // cool sound effect yay
                 player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 1, -10);
+                totemPlayer = player;
             }
 
 
@@ -55,6 +62,7 @@ public class InfinityTotem implements Listener {
 
         // if player is wearing crown, giv them the effect back. because for WHATEVR reason totems
         // clear all effects like huh ??? who decided on that being a feature
+        // & then also give them better absorption if they used the infinity totem (ie totemPlayer isnt null)
         new ReaddHealthBoostTask(ExplorersCore.getPlugin()).runTaskLater(ExplorersCore.getPlugin(), 1L);
 
     }
