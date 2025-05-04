@@ -79,6 +79,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new HeatedBrewingStand(), this);
         getServer().getPluginManager().registerEvents(new PlayerListHeader(), this);
         getServer().getPluginManager().registerEvents(new TintedGlassHideBeaconBeams(), this);
+        getServer().getPluginManager().registerEvents(new NameColor(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -89,7 +90,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 if (event.getPacketType() == PacketType.Play.Server.MAP_CHUNK) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(ExplorersCore.getPlugin(), () -> {
                         System.out.println("chunk loaded!");
-                        
+
                     },1);
                 }
                 if (event.getPacketType() == PacketType.Play.Server.UNLOAD_CHUNK) {
