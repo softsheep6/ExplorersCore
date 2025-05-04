@@ -1,7 +1,8 @@
 name: ExplorersCore
-version: '2.0.2'
+version: '2.0.4'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
+depend: [ProtocolLib]
 commands:
   givetotem:
     description: Gives the Totem of Infinity

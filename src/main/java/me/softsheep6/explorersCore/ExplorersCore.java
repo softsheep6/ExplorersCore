@@ -1,5 +1,7 @@
 package me.softsheep6.explorersCore;
 
+import com.comphenix.protocol.*;
+import com.comphenix.protocol.events.*;
 import me.softsheep6.explorersCore.blocks.HeatedBrewingStand;
 import me.softsheep6.explorersCore.commands.NameColor;
 import me.softsheep6.explorersCore.commands.SpawnProtection;
@@ -76,9 +78,27 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ToggleEnderPearls(), this);
         getServer().getPluginManager().registerEvents(new HeatedBrewingStand(), this);
         getServer().getPluginManager().registerEvents(new PlayerListHeader(), this);
+        getServer().getPluginManager().registerEvents(new TintedGlassHideBeaconBeams(), this);
 
         ArmorEquipEvent.registerListener(this);
 
+        /*ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Server.MAP_CHUNK) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (event.getPacketType() == PacketType.Play.Server.MAP_CHUNK) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(ExplorersCore.getPlugin(), () -> {
+                        System.out.println("chunk loaded!");
+                        
+                    },1);
+                }
+                if (event.getPacketType() == PacketType.Play.Server.UNLOAD_CHUNK) {
+                    System.out.println("chunk unloaded!");
+                }
+            }
+
+        });
+        */
         // register commands
         getCommand("spawnprotection").setExecutor(new SpawnProtection());
         getCommand("namecolor").setExecutor(new NameColor());

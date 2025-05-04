@@ -1,5 +1,6 @@
 me\softsheep6\explorersCore\misc_listeners\StringDispenser.class
 me\softsheep6\explorersCore\blocks\HeatedBrewingStand.class
+me\softsheep6\explorersCore\misc_listeners\TintedGlassHideBeaconBeams.class
 me\softsheep6\explorersCore\loot_tables\BlazeLoot.class
 me\softsheep6\explorersCore\items\craftable\MiningHammer.class
 me\softsheep6\explorersCore\misc_listeners\death_listeners\BlazeDeath.class
