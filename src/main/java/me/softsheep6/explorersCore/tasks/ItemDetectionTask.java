@@ -30,25 +30,31 @@ public class ItemDetectionTask extends BukkitRunnable implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
 
             if (p.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE, 63)) {
-                for (int i = 0; i < 10; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAS 64 GOLDEN APPLES IN THEIR INVENTORY");
+                for (int i = 0; i < 5; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAS 64 GOD APPLES IN THEIR INVENTORY AT LOCATION " + p.getLocation().getX() + ", " + p.getLocation().getY() + ", " + p.getLocation().getZ() + ", " + p.getLocation().getWorld().getEnvironment());
 
-            } else if (p.getInventory().contains(Material.MACE, 3)) {
-                for (int i = 0; i < 10; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAS 3 MACES IN THEIR INVENTORY");
+            }
+            if (p.getInventory().contains(Material.MACE, 3)) {
+                for (int i = 0; i < 5; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAS 3 MACES IN THEIR INVENTORY AT LOCATION " + p.getLocation().getX() + ", " + p.getLocation().getY() + ", " + p.getLocation().getZ() + ", " + p.getLocation().getWorld().getEnvironment());
 
-            } else if (p.getInventory().contains(Material.MACE, 1)) {
+            }
+            if (p.getInventory().contains(Material.MACE, 1)) {
                 maces++;
+            }
+            if (p.getInventory().contains(Material.WARDEN_SPAWN_EGG, 1)) {
+                for (int i = 0; i < 5; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAS WARDEN SPAWN EGGS IN THEIR INVENTORY AT LOCATION " + p.getLocation().getX() + ", " + p.getLocation().getY() + ", " + p.getLocation().getZ() + ", " + p.getLocation().getWorld().getEnvironment());
             }
 
         }
 
         if (maces > 2) {
-            for (int i = 0; i < 10; i++) log.log(Level.SEVERE, "THE COMBINED TOTAL OF PLAYERS WITH MACES IN THEIR INVENTORY IS GREATER THAN TWO");
+            for (int i = 0; i < 5; i++) log.log(Level.SEVERE, "THE COMBINED TOTAL OF PLAYERS WITH MACES IN THEIR INVENTORY IS GREATER THAN TWO");
         }
 
 
     }
 
     // also temporarily disable lightning sword
+    // as well as disable warden spawn egging
     @EventHandler
     public void onPlayerInteract (PlayerInteractEvent event) {
 
@@ -57,16 +63,13 @@ public class ItemDetectionTask extends BukkitRunnable implements Listener {
         if (item.getType().equals(Material.DIAMOND_SWORD) && item.containsEnchantment(Enchantment.CHANNELING)) {
             p.getInventory().setItemInMainHand(null);
 
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
-            log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY");
+            for (int i = 0; i < 5; i++) log.log(Level.SEVERE, "PLAYER " + p.getName() + " HAD A LIGHTNING SWORD IN THEIR INVENTORY AT LOCATION " + p.getLocation().getX() + ", " + p.getLocation().getY() + ", " + p.getLocation().getZ() + ", " + p.getLocation().getWorld().getEnvironment());
+        }
+
+        if (item.getType().equals(Material.WARDEN_SPAWN_EGG)) {
+            event.setCancelled(true);
+            p.getInventory().setItemInMainHand(null);
         }
     }
+
 }

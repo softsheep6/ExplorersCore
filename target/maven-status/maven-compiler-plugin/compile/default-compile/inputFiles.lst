@@ -6,6 +6,7 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\cr
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\JobApplication.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\MiningHammer.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\Parachute.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\craftable\PistonBoots.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\AxeOfSwiftness.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\Crown.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\DragonEgg.java
@@ -25,6 +26,7 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_lis
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\ToggleEnderPearls.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\ToggleEndPortal.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\ToggleMaceCraftable.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\ToggleShulkers.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\DamageAfterLightningTask.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\DamagePreventionTask.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\GiveEventItemEffectsTask.java

@@ -49,6 +49,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack commercePotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack certificate = new ItemStack(Material.MOJANG_BANNER_PATTERN);
     public ItemStack parachute = new ItemStack(Material.WHITE_CARPET);
+    public ItemStack pistonBoots = new ItemStack(Material.IRON_BOOTS);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
@@ -82,6 +83,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Parachute(), this);
         getServer().getPluginManager().registerEvents(new DragonFightMessages(), this);
         getServer().getPluginManager().registerEvents(new ItemDetectionTask(this), this);
+        getServer().getPluginManager().registerEvents(new PistonBoots(), this);
+        getServer().getPluginManager().registerEvents(new ToggleShulkers(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -326,6 +329,23 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         parachuteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         parachute.setItemMeta(parachuteMeta);
 
+        // parachute
+        List<String> lore14 = new ArrayList<>();
+        lore14.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "gtnh piston recipe gives me ptsd ...");
+        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Gives Speed III and Jump Boost III!");
+        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Will also double your max step height,");
+        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  allowing you to climb 1 block tall heights");
+        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  without jumping!");
+        lore14.add("");
+        lore14.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta pistonBootsMeta = pistonBoots.getItemMeta();
+        assert pistonBootsMeta != null;
+        pistonBootsMeta.setLore(lore14);
+        pistonBootsMeta.setDisplayName(ChatColor.RESET + "Piston Boots");
+        pistonBootsMeta.setRarity(ItemRarity.COMMON);
+        pistonBootsMeta.addEnchant(Enchantment.POWER, 1, true);
+        pistonBoots.setItemMeta(pistonBootsMeta);
+
 
 
 
@@ -333,7 +353,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // hammer
         ShapedRecipe hammerRecipe = new ShapedRecipe(new NamespacedKey(this, "hammer"), hammer);
-        hammerRecipe.shape("ABA" ," C ", " C ");
+        hammerRecipe.shape("ABA", " C ", " C ");
         hammerRecipe.setIngredient('A', Material.DIAMOND_BLOCK);
         hammerRecipe.setIngredient('B', Material.NETHERITE_INGOT);
         hammerRecipe.setIngredient('C', Material.BREEZE_ROD);
@@ -341,21 +361,21 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
 
         // bread
         ShapedRecipe breadRecipe = new ShapedRecipe(new NamespacedKey(this, "bread_wheat"), bread);
-        breadRecipe.shape("AAA" ," B ", "AAA");
+        breadRecipe.shape("AAA", " B ", "AAA");
         breadRecipe.setIngredient('A', Material.WHEAT);
         breadRecipe.setIngredient('B', Material.EMERALD);
         Bukkit.addRecipe(breadRecipe);
 
         // bread 2
         ShapedRecipe breadRecipe2 = new ShapedRecipe(new NamespacedKey(this, "bread_bread"), bread);
-        breadRecipe2.shape(" A " ," B ", " A ");
+        breadRecipe2.shape("A", "B", "A");
         breadRecipe2.setIngredient('A', Material.BREAD);
         breadRecipe2.setIngredient('B', Material.EMERALD);
         Bukkit.addRecipe(breadRecipe2);
 
         //job
         ShapedRecipe jobRecipe = new ShapedRecipe(new NamespacedKey(this, "job"), job);
-        jobRecipe.shape("ABC" ,"DEF", "GHI");
+        jobRecipe.shape("ABC", "DEF", "GHI");
         jobRecipe.setIngredient('A', Material.BREWING_STAND);
         jobRecipe.setIngredient('B', Material.LECTERN);
         jobRecipe.setIngredient('C', Material.GRINDSTONE);
@@ -396,6 +416,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         commercePotionRecipe.setIngredient('W', new RecipeChoice.ExactChoice(waterbottle));
         Bukkit.addRecipe(commercePotionRecipe);
 
+        // parachute
         ShapedRecipe parachuteRecipe = new ShapedRecipe(new NamespacedKey(this, "parachute"), parachute);
         parachuteRecipe.shape("CWC", "WBW", "SSS");
         parachuteRecipe.setIngredient('C', Material.WHITE_CARPET);
@@ -403,6 +424,16 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         parachuteRecipe.setIngredient('B', Material.WIND_CHARGE);
         parachuteRecipe.setIngredient('S', Material.STRING);
         Bukkit.addRecipe(parachuteRecipe);
+
+        // piston boots
+        ShapedRecipe pistonBootsRecipe = new ShapedRecipe(new NamespacedKey(this, "pistonboots"), pistonBoots);
+        pistonBootsRecipe.shape("LiL", "BIB", "PiP");
+        pistonBootsRecipe.setIngredient('L', Material.LEATHER);
+        pistonBootsRecipe.setIngredient('i', Material.IRON_INGOT);
+        pistonBootsRecipe.setIngredient('B', Material.IRON_BOOTS);
+        pistonBootsRecipe.setIngredient('I', Material.IRON_BLOCK);
+        pistonBootsRecipe.setIngredient('P', Material.PISTON);
+        Bukkit.addRecipe(pistonBootsRecipe);
 
 
     }
@@ -586,7 +617,19 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.RED + "disabled!");
                 }
             }
+        } else if (command.getName().equalsIgnoreCase("toggleshulkers")) {
+                World world = Bukkit.getWorlds().getFirst();
+                NamespacedKey key = new NamespacedKey(this, "shulkers");
+                PersistentDataContainer data = world.getPersistentDataContainer();
+                if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
+                    data.set(key, PersistentDataType.BOOLEAN, false);
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Shulker boxes " + ChatColor.GREEN +"enabled!");
+                } else {
+                    data.set(key, PersistentDataType.BOOLEAN, true);
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Shulker boxes " + ChatColor.RED + "disabled!");
+                }
         }
+
 
         return true;
     }

@@ -16,9 +16,11 @@ me\softsheep6\explorersCore\misc_listeners\NetheriteArmorUnequippable.class
 me\softsheep6\explorersCore\items\event\InfinityTotem.class
 me\softsheep6\explorersCore\commands\SpawnProtection.class
 me\softsheep6\explorersCore\items\craftable\JobApplication.class
+me\softsheep6\explorersCore\misc_listeners\ToggleShulkers.class
 me\softsheep6\explorersCore\misc_listeners\ProtectEventItems.class
 me\softsheep6\explorersCore\tasks\DamageAfterLightningTask.class
 me\softsheep6\explorersCore\misc_listeners\ToggleEnderPearls.class
+me\softsheep6\explorersCore\items\craftable\PistonBoots.class
 me\softsheep6\explorersCore\misc_listeners\ProtectSpawnPlatform.class
 me\softsheep6\explorersCore\items\event\Crown.class
 me\softsheep6\explorersCore\misc_listeners\PreventGrindstoningItems.class

@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '2.1.0'
+version: '2.1.1'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 depend: [ProtocolLib]
@@ -55,6 +55,10 @@ commands:
   toggleenderpearls:
     description: Toggles ender pearls
     permission: explorerscore.toggleenderpearls
+    usage: /<command>
+  toggleshulkers:
+    description: Toggles opening shulker boxes
+    permission: explorerscore.toggleshulkers
     usage: /<command>
   spawnprotection:
     description: Changes size of blocks protected from placing/breaking surrounding 0, 0, 0.
