@@ -8,6 +8,7 @@ import me.softsheep6.explorersCore.items.event.*;
 import me.softsheep6.explorersCore.misc_listeners.*;
 import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
 import me.softsheep6.explorersCore.tasks.GiveEventItemEffectsTask;
+import me.softsheep6.explorersCore.tasks.ItemDetectionTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -80,6 +81,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new NameColor(), this);
         getServer().getPluginManager().registerEvents(new Parachute(), this);
         getServer().getPluginManager().registerEvents(new DragonFightMessages(), this);
+        getServer().getPluginManager().registerEvents(new ItemDetectionTask(this), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -88,6 +90,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getCommand("spawnprotection").setExecutor(new SpawnProtection());
         getCommand("namecolor").setExecutor(new NameColor());
 
+        // checks for excessive amounts of certain items every second. im going to cry
+        new ItemDetectionTask(this).runTaskTimer(this, 0, 20);
 
         // checks if someones holding dragon egg every tick
         new GiveEventItemEffectsTask(this).runTaskTimer(this, 0, 1);

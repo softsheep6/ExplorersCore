@@ -29,7 +29,7 @@ public class Parachute implements Listener {
                 && holding.containsEnchantment(Enchantment.FEATHER_FALLING)) {
             if (p.getCooldown(Material.WHITE_CARPET) == 0) {
                 p.setGliding(true);
-                p.setCooldown(Material.WHITE_CARPET, 20); //2400
+                p.setCooldown(Material.WHITE_CARPET, 2400); //2400
             }
         }
 
