@@ -8,11 +8,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GiveEventItemEffects extends BukkitRunnable {
+public class GiveEventItemEffectsTask extends BukkitRunnable {
 
     ExplorersCore plugin;
 
-    public GiveEventItemEffects(ExplorersCore plugin) {
+    public GiveEventItemEffectsTask(ExplorersCore plugin) {
         this.plugin = plugin;
     }
 

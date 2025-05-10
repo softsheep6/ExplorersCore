@@ -1,5 +1,11 @@
 package me.softsheep6.explorersCore.misc_listeners;
 
+
+//
+// commented out for now because sadly i am not pro enough plugin dev to do this :[
+//
+
+/*
 import me.softsheep6.explorersCore.ExplorersCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+//import org.bukkit.event.player.PlayerJoinEvent;
 import com.jeff_media.morepersistentdatatypes.*;
 import org.bukkit.persistence.PersistentDataContainer;
 
@@ -17,7 +23,7 @@ import java.util.ArrayList;
 
 // this class will be for detecting & saving placed tinted glass, and then the packetevent thingy in main will be for actually showing the glass
 public class TintedGlassHideBeaconBeams implements Listener {
-    /*
+
     // hide beacon beams when tinted glass is placed on top of the beacon
     @EventHandler
     public void onBlockPlace (BlockPlaceEvent event) {
@@ -63,7 +69,9 @@ public class TintedGlassHideBeaconBeams implements Listener {
         System.out.println(Material.TINTED_GLASS.createBlockData());
     }
 
-    @EventHandler
+
+
+    /*@EventHandler
     public void onPlayerJoin (PlayerJoinEvent event) {
         // pdc stuff to make sure newly joining players get sent ALL placed glass yea
         PersistentDataContainer pdc = event.getPlayer().getWorld().getPersistentDataContainer();
@@ -77,6 +85,21 @@ public class TintedGlassHideBeaconBeams implements Listener {
         for (Location loc : locArr) {
             event.getPlayer().sendBlockChange(loc, Material.TINTED_GLASS.createBlockData());
         }
-    }
-     */
+
+
+    // probably goes in main class idK im just gonna leave it here for now
+    ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Server.MAP_CHUNK) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                if (event.getPacketType() == PacketType.Play.Server.MAP_CHUNK) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(ExplorersCore.getPlugin(), () -> {
+                        System.out.println("chunk loaded!");
+                    },1);
+                }
+            }
+        });
+    }*/
+/*
 }
+*/

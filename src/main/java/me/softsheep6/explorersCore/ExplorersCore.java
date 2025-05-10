@@ -1,17 +1,13 @@
 package me.softsheep6.explorersCore;
 
-import com.comphenix.protocol.*;
-import com.comphenix.protocol.events.*;
 import me.softsheep6.explorersCore.blocks.HeatedBrewingStand;
 import me.softsheep6.explorersCore.commands.NameColor;
 import me.softsheep6.explorersCore.commands.SpawnProtection;
-import me.softsheep6.explorersCore.items.craftable.EnrichedBread;
-import me.softsheep6.explorersCore.items.craftable.JobApplication;
-import me.softsheep6.explorersCore.items.craftable.MiningHammer;
+import me.softsheep6.explorersCore.items.craftable.*;
 import me.softsheep6.explorersCore.items.event.*;
 import me.softsheep6.explorersCore.misc_listeners.*;
 import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
-import me.softsheep6.explorersCore.tasks.GiveEventItemEffects;
+import me.softsheep6.explorersCore.tasks.GiveEventItemEffectsTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -35,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public final class ExplorersCore extends JavaPlugin implements Listener {
     private static ExplorersCore plugin;
@@ -50,11 +47,12 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack combatPotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack commercePotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack certificate = new ItemStack(Material.MOJANG_BANNER_PATTERN);
+    public ItemStack parachute = new ItemStack(Material.WHITE_CARPET);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
     public void onEnable() {
-        System.out.println("Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
+        Bukkit.getLogger().log(Level.INFO, "Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
         plugin = this;
 
         // registers event handlers! and the armor event thing
@@ -78,35 +76,21 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ToggleEnderPearls(), this);
         getServer().getPluginManager().registerEvents(new HeatedBrewingStand(), this);
         getServer().getPluginManager().registerEvents(new PlayerListHeader(), this);
-        getServer().getPluginManager().registerEvents(new TintedGlassHideBeaconBeams(), this);
+        //getServer().getPluginManager().registerEvents(new TintedGlassHideBeaconBeams(), this);
         getServer().getPluginManager().registerEvents(new NameColor(), this);
+        getServer().getPluginManager().registerEvents(new Parachute(), this);
+        getServer().getPluginManager().registerEvents(new DragonFightMessages(), this);
 
         ArmorEquipEvent.registerListener(this);
 
-        /*ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        protocolManager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Server.MAP_CHUNK) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                if (event.getPacketType() == PacketType.Play.Server.MAP_CHUNK) {
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(ExplorersCore.getPlugin(), () -> {
-                        System.out.println("chunk loaded!");
 
-                    },1);
-                }
-                if (event.getPacketType() == PacketType.Play.Server.UNLOAD_CHUNK) {
-                    System.out.println("chunk unloaded!");
-                }
-            }
-
-        });
-        */
         // register commands
         getCommand("spawnprotection").setExecutor(new SpawnProtection());
         getCommand("namecolor").setExecutor(new NameColor());
 
 
         // checks if someones holding dragon egg every tick
-        new GiveEventItemEffects(this).runTaskTimer(this, 0, 1);
+        new GiveEventItemEffectsTask(this).runTaskTimer(this, 0, 1);
 
         // set pvp depending on /togglepvp command
         World world = Bukkit.getWorlds().getFirst();
@@ -120,6 +104,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         // putting them here is better than putting them in their own classes i think cause otherwise every time
         // their events are run they run Allll those lines again and again whereas here in the onEnable class
         // theyre only run once at server start!
+        // ^ this guy is so stupid just dont put them in the eventhandler smh
+        // someday i will actually move these into their own classes...........
 
 
         //totem
@@ -318,6 +304,24 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         certificateRecipe.addIngredient(9, Material.NETHERITE_BLOCK);
         Bukkit.addRecipe(certificateRecipe);
 
+        // parachute
+        List<String> lore13 = new ArrayList<>();
+        lore13.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "basically just elytra but worse");
+        lore13.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right click to glide! Firework boosts");
+        lore13.add(ChatColor.RESET + "" + ChatColor.WHITE + "  are too powerful and will damage the ");
+        lore13.add(ChatColor.RESET + "" + ChatColor.WHITE + "  parachute unfortunately (2 minute cooldown) ");
+        lore13.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Must also be held in main hand while gliding! ");
+        lore13.add("");
+        lore13.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta parachuteMeta = parachute.getItemMeta();
+        assert parachuteMeta != null;
+        parachuteMeta.setLore(lore13);
+        parachuteMeta.setDisplayName(ChatColor.RESET + "Parachute");
+        parachuteMeta.setRarity(ItemRarity.COMMON);
+        parachuteMeta.addEnchant(Enchantment.FEATHER_FALLING, 1, true);
+        parachuteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        parachute.setItemMeta(parachuteMeta);
+
 
 
 
@@ -381,12 +385,20 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         combatPotionRecipe.setIngredient('W', new RecipeChoice.ExactChoice(waterbottle));
         Bukkit.addRecipe(combatPotionRecipe);
 
-        // potion of combat
+        // potion of commerce
         ShapedRecipe commercePotionRecipe = new ShapedRecipe(new NamespacedKey(this, "commercepotion"), commercePotion);
         commercePotionRecipe.shape("EEE", "EWE", "EEE");
         commercePotionRecipe.setIngredient('E', Material.EMERALD_BLOCK);
         commercePotionRecipe.setIngredient('W', new RecipeChoice.ExactChoice(waterbottle));
         Bukkit.addRecipe(commercePotionRecipe);
+
+        ShapedRecipe parachuteRecipe = new ShapedRecipe(new NamespacedKey(this, "parachute"), parachute);
+        parachuteRecipe.shape("CWC", "WBW", "SSS");
+        parachuteRecipe.setIngredient('C', Material.WHITE_CARPET);
+        parachuteRecipe.setIngredient('W', Material.WHITE_WOOL);
+        parachuteRecipe.setIngredient('B', Material.WIND_CHARGE);
+        parachuteRecipe.setIngredient('S', Material.STRING);
+        Bukkit.addRecipe(parachuteRecipe);
 
 
     }
