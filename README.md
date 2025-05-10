@@ -14,6 +14,7 @@ plugin for the Explorers SMP !
 * job application (resets villager trades on right click)
 * potion of commerce (30 minutes of hero of the village)
 * potion of combat (3 minutes of strength 2 speed and fire res)
+* parachute (elytra but u have to hold it ur hand and u cant use fireworks and 2 min cooldown)
 
 
 ### more coming soon!
