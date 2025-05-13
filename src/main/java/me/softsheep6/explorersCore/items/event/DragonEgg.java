@@ -89,7 +89,6 @@ public class DragonEgg implements Listener {
 
             // changes the player's fly speed for 12 seconds (this is how the immunity to magic damage is detected)
             player.setFlySpeed(0.2F);
-            System.out.println("set player fly speed! " + player);
             new DamagePreventionTask(ExplorersCore.getPlugin()).runTaskLaterAsynchronously(ExplorersCore.getPlugin(), 240L);
 
             // cooldown! so cool HAh get it lolz

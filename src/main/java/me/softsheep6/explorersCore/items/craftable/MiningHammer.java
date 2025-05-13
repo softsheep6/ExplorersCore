@@ -69,7 +69,7 @@ public class MiningHammer implements Listener {
         if(event.getHand() != EquipmentSlot.HAND)
             return;
 
-        if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && holdingHammer(event.getPlayer()) != -1) {
+        if ((event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) && holdingHammer(event.getPlayer()) != -1 && !event.getPlayer().isSneaking()) {
             if (holdingHammer(event.getPlayer()) == 0) {
                 item.removeEnchantment(Enchantment.POWER);
                 item.addUnsafeEnchantment(Enchantment.POWER, 3);
@@ -89,7 +89,7 @@ public class MiningHammer implements Listener {
     // returns -1 if player is not holding hammer,
     // returns 0 if player is holding hammer set to 1x1x1,
     // returns 1 if player is holding hammer set to 3x3x1 . did this need its own method? maybe. its up to you. idk.
-    public int holdingHammer(Player player) {
+    public static int holdingHammer(Player player) {
         ItemStack tool = player.getInventory().getItemInMainHand();
         if ((tool.getType().equals(Material.DIAMOND_PICKAXE) || tool.getType().equals(Material.NETHERITE_PICKAXE)) && tool.getEnchantmentLevel(Enchantment.POWER) == 1)
             return 0;

@@ -3,9 +3,11 @@ me\softsheep6\explorersCore\misc_listeners\DragonFightMessages$1.class
 me\softsheep6\explorersCore\blocks\HeatedBrewingStand.class
 me\softsheep6\explorersCore\loot_tables\BlazeLoot.class
 me\softsheep6\explorersCore\items\craftable\MiningHammer.class
+me\softsheep6\explorersCore\items\event\HasteHammer.class
 me\softsheep6\explorersCore\items\craftable\Parachute.class
 me\softsheep6\explorersCore\misc_listeners\death_listeners\BlazeDeath.class
 me\softsheep6\explorersCore\items\craftable\EnrichedBread.class
+me\softsheep6\explorersCore\misc_listeners\CatRainbowCollar$2.class
 me\softsheep6\explorersCore\items\event\DragonEgg.class
 me\softsheep6\explorersCore\tasks\ItemDetectionTask.class
 me\softsheep6\explorersCore\tasks\LightningCooldownTask.class
@@ -13,6 +15,8 @@ me\softsheep6\explorersCore\misc_listeners\DragonFightMessages.class
 me\softsheep6\explorersCore\tasks\GiveEventItemEffectsTask.class
 me\softsheep6\explorersCore\items\event\LightningSword.class
 me\softsheep6\explorersCore\misc_listeners\NetheriteArmorUnequippable.class
+me\softsheep6\explorersCore\misc_listeners\CatRainbowCollar.class
+me\softsheep6\explorersCore\items\event\HasteHammer$1.class
 me\softsheep6\explorersCore\items\event\InfinityTotem.class
 me\softsheep6\explorersCore\commands\SpawnProtection.class
 me\softsheep6\explorersCore\items\craftable\JobApplication.class
@@ -22,11 +26,11 @@ me\softsheep6\explorersCore\tasks\DamageAfterLightningTask.class
 me\softsheep6\explorersCore\misc_listeners\ToggleEnderPearls.class
 me\softsheep6\explorersCore\items\craftable\PistonBoots.class
 me\softsheep6\explorersCore\misc_listeners\ProtectSpawnPlatform.class
+me\softsheep6\explorersCore\tasks\ReaddItemEffectsTask.class
 me\softsheep6\explorersCore\items\event\Crown.class
 me\softsheep6\explorersCore\misc_listeners\PreventGrindstoningItems.class
 me\softsheep6\explorersCore\ExplorersCore.class
 me\softsheep6\explorersCore\misc_listeners\ToggleEndPortal.class
-me\softsheep6\explorersCore\tasks\ReaddHealthBoostTask.class
 me\softsheep6\explorersCore\commands\NameColor.class
 me\softsheep6\explorersCore\misc_listeners\PlayerListHeader.class
 me\softsheep6\explorersCore\items\event\AxeOfSwiftness.class
@@ -34,3 +38,5 @@ me\softsheep6\explorersCore\misc_listeners\DisableCrafterCraftingMace.class
 me\softsheep6\explorersCore\misc_listeners\ToggleMaceCraftable.class
 me\softsheep6\explorersCore\misc_listeners\DragonFightMessages$2.class
 me\softsheep6\explorersCore\tasks\DamagePreventionTask.class
+me\softsheep6\explorersCore\misc_listeners\CatRainbowCollar$1.class
+me\softsheep6\explorersCore\misc_listeners\GodAppleLogger.class

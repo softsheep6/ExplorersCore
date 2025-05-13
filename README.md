@@ -6,6 +6,7 @@ plugin for the Explorers SMP !
 * explorer's crown (doubles max hearts)
 * lightning sword (20% to strike lightning on hit with increased attack damage)
 * axe of swiftness (dash ability + speed 2)
+* haste hammer (better mining hammer, haste 8 ability)
 * also gives dragon egg the ability to spawn dragons breath (on a cooldown)
 
 ### craftable items added:
@@ -15,6 +16,7 @@ plugin for the Explorers SMP !
 * potion of commerce (30 minutes of hero of the village)
 * potion of combat (3 minutes of strength 2 speed and fire res)
 * parachute (elytra but u have to hold it ur hand and u cant use fireworks and 2 min cooldown)
+* piston boots (speed 2 jump boost 2 and double step height)
 
 
 ### more coming soon!

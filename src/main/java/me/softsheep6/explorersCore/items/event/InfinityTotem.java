@@ -1,7 +1,7 @@
 package me.softsheep6.explorersCore.items.event;
 
 import me.softsheep6.explorersCore.ExplorersCore;
-import me.softsheep6.explorersCore.tasks.ReaddHealthBoostTask;
+import me.softsheep6.explorersCore.tasks.ReaddItemEffectsTask;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -63,7 +63,7 @@ public class InfinityTotem implements Listener {
         // if player is wearing crown, giv them the effect back. because for WHATEVR reason totems
         // clear all effects like huh ??? who decided on that being a feature
         // & then also give them better absorption if they used the infinity totem (ie totemPlayer isnt null)
-        new ReaddHealthBoostTask(ExplorersCore.getPlugin()).runTaskLater(ExplorersCore.getPlugin(), 1L);
+        new ReaddItemEffectsTask(ExplorersCore.getPlugin()).runTaskLater(ExplorersCore.getPlugin(), 1L);
 
     }
 }

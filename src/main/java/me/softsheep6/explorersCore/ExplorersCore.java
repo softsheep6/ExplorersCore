@@ -50,11 +50,12 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack certificate = new ItemStack(Material.MOJANG_BANNER_PATTERN);
     public ItemStack parachute = new ItemStack(Material.WHITE_CARPET);
     public ItemStack pistonBoots = new ItemStack(Material.IRON_BOOTS);
+    public ItemStack hasteHammer = new ItemStack(Material.NETHERITE_PICKAXE);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
     public void onEnable() {
-        Bukkit.getLogger().log(Level.INFO, "Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
+        this.getLogger().log(Level.INFO, "Welcome to the Explorers SMP !! Explorers plugin has loaded :thumbsup:");
         plugin = this;
 
         // registers event handlers! and the armor event thing
@@ -85,6 +86,9 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new ItemDetectionTask(this), this);
         getServer().getPluginManager().registerEvents(new PistonBoots(), this);
         getServer().getPluginManager().registerEvents(new ToggleShulkers(), this);
+        getServer().getPluginManager().registerEvents(new CatRainbowCollar(), this);
+        getServer().getPluginManager().registerEvents(new GodAppleLogger(), this);
+        getServer().getPluginManager().registerEvents(new HasteHammer(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -329,10 +333,10 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         parachuteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         parachute.setItemMeta(parachuteMeta);
 
-        // parachute
+        // piston boots
         List<String> lore14 = new ArrayList<>();
-        lore14.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "gtnh piston recipe gives me ptsd ...");
-        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Gives Speed III and Jump Boost III!");
+        lore14.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Now without the annoying piston sound every time you jump!!");
+        lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Gives Speed II and Jump Boost II!");
         lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Will also double your max step height,");
         lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  allowing you to climb 1 block tall heights");
         lore14.add(ChatColor.RESET + "" + ChatColor.WHITE + "  without jumping!");
@@ -345,6 +349,26 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         pistonBootsMeta.setRarity(ItemRarity.COMMON);
         pistonBootsMeta.addEnchant(Enchantment.POWER, 1, true);
         pistonBoots.setItemMeta(pistonBootsMeta);
+
+        // haste hammer
+        List<String> lore15 = new ArrayList<>();
+        lore15.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "SPEEDDD");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Can mine a 3x3x1 area at once!");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Right click switches between 1x1x1 and 3x3x1");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Shift right click to activate Haste VIII");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  for 10 seconds! (30 second cooldown)");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Attack speed will not be increased, only");
+        lore15.add(ChatColor.RESET + "" + ChatColor.WHITE + "  mining speed!");
+        lore15.add("");
+        lore15.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
+        ItemMeta hasteHammerMeta = hasteHammer.getItemMeta();
+        assert hasteHammerMeta != null;
+        hasteHammerMeta.setLore(lore15);
+        hasteHammerMeta.setDisplayName(ChatColor.RESET + "Haste Hammer");
+        hasteHammerMeta.setRarity(ItemRarity.EPIC);
+        hasteHammerMeta.addEnchant(Enchantment.POWER, 1, true);
+        hasteHammerMeta.addEnchant(Enchantment.QUICK_CHARGE, 1, true);
+        hasteHammer.setItemMeta(hasteHammerMeta);
 
 
 
@@ -548,6 +572,19 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 }
                 else
                     player.getInventory().addItem(inferno);
+            }
+        } else if (command.getName().equalsIgnoreCase("givehastehammer")) {
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(hasteHammer);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(hasteHammer);
             }
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {

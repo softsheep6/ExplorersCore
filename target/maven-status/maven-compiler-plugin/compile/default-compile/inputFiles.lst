@@ -10,12 +10,15 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\cr
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\AxeOfSwiftness.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\Crown.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\DragonEgg.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\HasteHammer.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\InfinityTotem.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\items\event\LightningSword.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\loot_tables\BlazeLoot.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\CatRainbowCollar.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\death_listeners\BlazeDeath.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\DisableCrafterCraftingMace.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\DragonFightMessages.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\GodAppleLogger.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\NetheriteArmorUnequippable.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\PlayerListHeader.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\misc_listeners\PreventGrindstoningItems.java
@@ -32,4 +35,4 @@ E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\Da
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\GiveEventItemEffectsTask.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\ItemDetectionTask.java
 E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\LightningCooldownTask.java
-E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\ReaddHealthBoostTask.java
+E:\spigotPLUGIN\ExplorersCore\src\main\java\me\softsheep6\explorersCore\tasks\ReaddItemEffectsTask.java

@@ -21,8 +21,8 @@ public class PistonBoots implements Listener {
         Player p = event.getPlayer();
         ItemStack newItem = event.getNewArmorPiece();
         ItemStack oldItem = event.getOldArmorPiece();
-        PotionEffect speedEff = new PotionEffect(PotionEffectType.SPEED, -1, 2);
-        PotionEffect jumpEff = new PotionEffect(PotionEffectType.JUMP_BOOST, -1, 2);
+        PotionEffect speedEff = new PotionEffect(PotionEffectType.SPEED, -1, 1);
+        PotionEffect jumpEff = new PotionEffect(PotionEffectType.JUMP_BOOST, -1, 1);
 
 
         if (newItem != null && newItem.getType().equals(Material.IRON_BOOTS) && newItem.containsEnchantment(Enchantment.POWER)) {
