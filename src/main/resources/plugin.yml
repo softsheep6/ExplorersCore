@@ -1,8 +1,7 @@
 name: ExplorersCore
-version: '2.2.0'
+version: '3.0.0'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
-depend: [ProtocolLib]
 commands:
   givetotem:
     description: Gives the Totem of Infinity
@@ -39,6 +38,10 @@ commands:
   givehastehammer:
     description: Gives the Haste Hammer
     permission: explorerscore.hastehammer
+    usage: /<command>
+  givewardenbow:
+    description: Gives the Warden Bow
+    permission: explorerscore.wardenbow
     usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted

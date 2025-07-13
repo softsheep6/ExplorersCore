@@ -51,6 +51,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack parachute = new ItemStack(Material.WHITE_CARPET);
     public ItemStack pistonBoots = new ItemStack(Material.IRON_BOOTS);
     public ItemStack hasteHammer = new ItemStack(Material.NETHERITE_PICKAXE);
+    public ItemStack wardenBow = new ItemStack(Material.BOW);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
@@ -83,12 +84,13 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new NameColor(), this);
         getServer().getPluginManager().registerEvents(new Parachute(), this);
         getServer().getPluginManager().registerEvents(new DragonFightMessages(), this);
-        getServer().getPluginManager().registerEvents(new ItemDetectionTask(this), this);
+        //getServer().getPluginManager().registerEvents(new ItemDetectionTask(this), this);
         getServer().getPluginManager().registerEvents(new PistonBoots(), this);
         getServer().getPluginManager().registerEvents(new ToggleShulkers(), this);
         getServer().getPluginManager().registerEvents(new CatRainbowCollar(), this);
         getServer().getPluginManager().registerEvents(new GodAppleLogger(), this);
         getServer().getPluginManager().registerEvents(new HasteHammer(), this);
+        getServer().getPluginManager().registerEvents(new WardenBow(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -98,7 +100,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getCommand("namecolor").setExecutor(new NameColor());
 
         // checks for excessive amounts of certain items every second. im going to cry
-        new ItemDetectionTask(this).runTaskTimer(this, 0, 20);
+        //new ItemDetectionTask(this).runTaskTimer(this, 0, 20);
 
         // checks if someones holding dragon egg every tick
         new GiveEventItemEffectsTask(this).runTaskTimer(this, 0, 1);
@@ -159,7 +161,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore3.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Harness the power of the storm...");
         lore3.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "20% chance to strike lightning when attacking!");
         lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Lightning attacks do one heart of true damage!");
-        lore3.add(ChatColor.RESET + " " + ChatColor.WHITE + " Grants immunity to lightning damage!");
+        lore3.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Grants immunity to lightning damage!");
         lore3.add("");
         lore3.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta swordMeta = sword.getItemMeta();
@@ -175,7 +177,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore9.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Run like the wind...");
         lore9.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "Right click to dash forward!");
         lore9.add(ChatColor.RESET + " " + ChatColor.WHITE + " Dashing has a 4 second cooldown");
-        lore9.add(ChatColor.RESET + " " + ChatColor.WHITE + " Also grants Speed II while holding!");
+        lore9.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "Grants Speed II while holding!");
         lore9.add("");
         lore9.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
         ItemMeta axeMeta = axe.getItemMeta();
@@ -369,6 +371,26 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         hasteHammerMeta.addEnchant(Enchantment.POWER, 1, true);
         hasteHammerMeta.addEnchant(Enchantment.QUICK_CHARGE, 1, true);
         hasteHammer.setItemMeta(hasteHammerMeta);
+
+        // warden bow
+        List<String> lore16 = new ArrayList<>();
+        lore16.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Infused with pure sculk essence, straight");
+        lore16.add(ChatColor.AQUA + "" + ChatColor.ITALIC + " from the heart of a Warden");
+                lore16.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "  Left click to fire a sonically");
+        lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " charged shriek! Has a minimum range of");
+        lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " 5 blocks, and a maximum range of 30");
+        lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " blocks. (15 second cooldown)");
+        lore16.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  PASSIVE:" + ChatColor.RESET + " " + ChatColor.WHITE + "  Arrows will inflict darkness on");
+        lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " hit! Lasts for 6 seconds.");
+        lore16.add("");
+        lore16.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "EVENT ITEM");
+        ItemMeta wardenBowMeta = wardenBow.getItemMeta();
+        assert wardenBowMeta != null;
+        wardenBowMeta.setLore(lore16);
+        wardenBowMeta.setDisplayName(ChatColor.RESET + "Warden Bow");
+        wardenBowMeta.setRarity(ItemRarity.EPIC);
+        wardenBowMeta.addEnchant(Enchantment.IMPALING, 1, true);
+        wardenBow.setItemMeta(wardenBowMeta);
 
 
 
@@ -585,6 +607,19 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 }
                 else
                     player.getInventory().addItem(hasteHammer);
+            }
+        } else if (command.getName().equalsIgnoreCase("givewardenbow")) {
+            if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(wardenBow);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(wardenBow);
             }
         } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
             if (sender instanceof Player player) {

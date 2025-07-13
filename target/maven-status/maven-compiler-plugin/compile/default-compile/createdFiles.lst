@@ -1,6 +1,7 @@
 me\softsheep6\explorersCore\misc_listeners\StringDispenser.class
 me\softsheep6\explorersCore\misc_listeners\DragonFightMessages$1.class
 me\softsheep6\explorersCore\blocks\HeatedBrewingStand.class
+me\softsheep6\explorersCore\items\event\WardenBow.class
 me\softsheep6\explorersCore\loot_tables\BlazeLoot.class
 me\softsheep6\explorersCore\items\craftable\MiningHammer.class
 me\softsheep6\explorersCore\items\event\HasteHammer.class
