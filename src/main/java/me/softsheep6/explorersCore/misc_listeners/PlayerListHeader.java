@@ -9,6 +9,6 @@ public class PlayerListHeader implements Listener {
 
     @EventHandler
     public void onPlayerJoin (PlayerJoinEvent event) {
-        event.getPlayer().setPlayerListHeader(ChatColor.AQUA + "Welcome to Explorers SMP season 2 :)\n");
+        event.getPlayer().setPlayerListHeader(ChatColor.AQUA + "Welcome to Explorers SMP season three :)\n");
     }
 }

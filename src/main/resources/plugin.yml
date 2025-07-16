@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '3.0.0'
+version: '3.1.1'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -43,6 +43,10 @@ commands:
     description: Gives the Warden Bow
     permission: explorerscore.wardenbow
     usage: /<command>
+  givelumberaxe:
+    description: Gives a Lumber Axe
+    permission: explorerscore.lumberaxe
+    usage: /<command>
   togglemacecraftable:
     description: Toggles whether or not the mace can be crafted
     permission: explorerscore.togglemacecraftable
@@ -74,4 +78,8 @@ commands:
   namecolor:
     description: Sets a player's name color in tab list.
     permission: explorerscore.namecolor
+    usage: /<command>
+  getitem:
+    description: temporary
+    permission: explorerscore.getitem
     usage: /<command>

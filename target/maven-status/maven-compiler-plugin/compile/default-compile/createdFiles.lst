@@ -5,6 +5,7 @@ me\softsheep6\explorersCore\items\event\WardenBow.class
 me\softsheep6\explorersCore\loot_tables\BlazeLoot.class
 me\softsheep6\explorersCore\items\craftable\MiningHammer.class
 me\softsheep6\explorersCore\items\event\HasteHammer.class
+me\softsheep6\explorersCore\ExplorersCore$1.class
 me\softsheep6\explorersCore\items\craftable\Parachute.class
 me\softsheep6\explorersCore\misc_listeners\death_listeners\BlazeDeath.class
 me\softsheep6\explorersCore\items\craftable\EnrichedBread.class
@@ -13,10 +14,12 @@ me\softsheep6\explorersCore\items\event\DragonEgg.class
 me\softsheep6\explorersCore\tasks\ItemDetectionTask.class
 me\softsheep6\explorersCore\tasks\LightningCooldownTask.class
 me\softsheep6\explorersCore\misc_listeners\DragonFightMessages.class
+me\softsheep6\explorersCore\misc_listeners\CustomFishingStuff$1.class
 me\softsheep6\explorersCore\tasks\GiveEventItemEffectsTask.class
 me\softsheep6\explorersCore\items\event\LightningSword.class
 me\softsheep6\explorersCore\misc_listeners\NetheriteArmorUnequippable.class
 me\softsheep6\explorersCore\misc_listeners\CatRainbowCollar.class
+me\softsheep6\explorersCore\misc_listeners\CustomFishingStuff.class
 me\softsheep6\explorersCore\items\event\HasteHammer$1.class
 me\softsheep6\explorersCore\items\event\InfinityTotem.class
 me\softsheep6\explorersCore\commands\SpawnProtection.class

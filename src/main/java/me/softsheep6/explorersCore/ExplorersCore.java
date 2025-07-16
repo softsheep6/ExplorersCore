@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -28,10 +29,13 @@ import com.jeff_media.armorequipevent.ArmorEquipEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public final class ExplorersCore extends JavaPlugin implements Listener {
@@ -44,7 +48,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack bread = new ItemStack(Material.BREAD);
     public ItemStack job = new ItemStack(Material.MAP);
     public ItemStack inferno = new ItemStack(Material.BLAZE_ROD);
-    public ItemStack infernoblock = new ItemStack(Material.MAGMA_BLOCK);
+    public ItemStack infernoBlock = new ItemStack(Material.MAGMA_BLOCK);
     public ItemStack combatPotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack commercePotion = new ItemStack(Material.SPLASH_POTION);
     public ItemStack certificate = new ItemStack(Material.MOJANG_BANNER_PATTERN);
@@ -52,6 +56,9 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
     public ItemStack pistonBoots = new ItemStack(Material.IRON_BOOTS);
     public ItemStack hasteHammer = new ItemStack(Material.NETHERITE_PICKAXE);
     public ItemStack wardenBow = new ItemStack(Material.BOW);
+    public ItemStack midasRod = new ItemStack(Material.FISHING_ROD);
+    public ItemStack goldenString = new ItemStack(Material.STRING);
+    public ItemStack lumberAxe = new ItemStack(Material.DIAMOND_AXE);
     public Player playerWithEgg = null;
     public Player playerWithAxe = null;
     @Override
@@ -91,6 +98,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new GodAppleLogger(), this);
         getServer().getPluginManager().registerEvents(new HasteHammer(), this);
         getServer().getPluginManager().registerEvents(new WardenBow(), this);
+        getServer().getPluginManager().registerEvents(new CustomFishingStuff(), this);
+        //getServer().getPluginManager().registerEvents(new LumberAxe(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -261,14 +270,14 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         lore8.add(ChatColor.RESET + "" + ChatColor.WHITE + "  to convert it to a Heated Brewing Stand!");
         lore8.add("");
         lore8.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
-        ItemMeta infernoblockMeta = infernoblock.getItemMeta();
-        assert infernoblockMeta != null;
-        infernoblockMeta.setLore(lore8);
-        infernoblockMeta.setDisplayName(ChatColor.RESET + "Inferno Block");
-        infernoblockMeta.setRarity(ItemRarity.UNCOMMON);
-        infernoblockMeta.addEnchant(Enchantment.FLAME, 1, true);
-        infernoblockMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        infernoblock.setItemMeta(infernoblockMeta);
+        ItemMeta infernoBlockMeta = infernoBlock.getItemMeta();
+        assert infernoBlockMeta != null;
+        infernoBlockMeta.setLore(lore8);
+        infernoBlockMeta.setDisplayName(ChatColor.RESET + "Inferno Block");
+        infernoBlockMeta.setRarity(ItemRarity.UNCOMMON);
+        infernoBlockMeta.addEnchant(Enchantment.FLAME, 1, true);
+        infernoBlockMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        infernoBlock.setItemMeta(infernoBlockMeta);
 
         // potion of combat
         List<String> lore10 = new ArrayList<>();
@@ -376,7 +385,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         List<String> lore16 = new ArrayList<>();
         lore16.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Infused with pure sculk essence, straight");
         lore16.add(ChatColor.AQUA + "" + ChatColor.ITALIC + " from the heart of a Warden");
-                lore16.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "  Left click to fire a sonically");
+        lore16.add(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "  ABILITY:" + ChatColor.RESET + " " + ChatColor.WHITE + "  Left click to fire a sonically");
         lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " charged shriek! Has a minimum range of");
         lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " 5 blocks, and a maximum range of 30");
         lore16.add(ChatColor.RESET + "" + ChatColor.WHITE + " blocks. (15 second cooldown)");
@@ -392,6 +401,56 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         wardenBowMeta.addEnchant(Enchantment.IMPALING, 1, true);
         wardenBow.setItemMeta(wardenBowMeta);
 
+        // midas rod
+        List<String> lore17 = new ArrayList<>();
+        lore17.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "Transmutate the seas to pure gold...");
+        lore17.add(ChatColor.RESET + "" + ChatColor.WHITE + "Fishing with this rod has an altered, gold only");
+        lore17.add(ChatColor.RESET + "" + ChatColor.WHITE + "loot table! Drops can range from gold ingots to,");
+        lore17.add(ChatColor.RESET + "" + ChatColor.WHITE + "very rarely, god apples!");
+        lore17.add(ChatColor.RESET + "" + ChatColor.WHITE + "The rod is also UNBREAKABLE due to its goldness!");
+        lore17.add("");
+        lore17.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta midasRodMeta = midasRod.getItemMeta();
+        assert midasRodMeta != null;
+        midasRodMeta.setLore(lore17);
+        midasRodMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.GOLD + "Midas' Rod");
+        midasRodMeta.addEnchant(Enchantment.FORTUNE, 1, true);
+        midasRodMeta.setUnbreakable(true);
+        CustomModelDataComponent midasRodCMD = midasRodMeta.getCustomModelDataComponent();
+        midasRodCMD.setStrings(List.of("midasrod"));
+        midasRodMeta.setCustomModelDataComponent(midasRodCMD);
+        midasRod.setItemMeta(midasRodMeta);
+
+        // golden string
+        List<String> lore18 = new ArrayList<>();
+        lore18.add(ChatColor.RESET + "" + ChatColor.WHITE + "Used to craft the " + ChatColor.GOLD + "Midas' Rod!");
+        lore18.add("");
+        lore18.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTING INGREDIENT");
+        ItemMeta goldenStringMeta = goldenString.getItemMeta();
+        assert goldenStringMeta != null;
+        goldenStringMeta.setLore(lore18);
+        goldenStringMeta.setDisplayName(ChatColor.RESET + "Golden String");
+        goldenStringMeta.setRarity(ItemRarity.UNCOMMON);
+        goldenStringMeta.addEnchant(Enchantment.FLAME, 1, true);
+        goldenStringMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        goldenString.setItemMeta(goldenStringMeta);
+
+        // lumber axe
+        List<String> lumberAxeLore = new ArrayList<>();
+        lumberAxeLore.add(ChatColor.AQUA + "" + ChatColor.ITALIC + "The trees' arch nemesis");
+        lumberAxeLore.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Can chop down an entire tree at once!");
+        lumberAxeLore.add(ChatColor.RESET + "" + ChatColor.WHITE + "  Shift while mining to only mine 1 log.");
+        lumberAxeLore.add("");
+        lumberAxeLore.add("" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "CRAFTABLE ITEM");
+        ItemMeta lumberAxeMeta = lumberAxe.getItemMeta();
+        assert lumberAxeMeta != null;
+        lumberAxeMeta.setLore(lumberAxeLore);
+        lumberAxeMeta.setDisplayName(ChatColor.RESET + "Lumber Axe");
+        lumberAxeMeta.setRarity(ItemRarity.UNCOMMON);
+        CustomModelDataComponent lumberAxeCMD = lumberAxeMeta.getCustomModelDataComponent();
+        lumberAxeCMD.setStrings(List.of("lumberaxe"));
+        lumberAxeMeta.setCustomModelDataComponent(lumberAxeCMD);
+        lumberAxe.setItemMeta(lumberAxeMeta);
 
 
 
@@ -434,10 +493,10 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         Bukkit.addRecipe(jobRecipe);
 
         // inferno block
-        ShapedRecipe infernoblockRecipe = new ShapedRecipe(new NamespacedKey(this, "infernoblock"), infernoblock);
-        infernoblockRecipe.shape("II", "II");
-        infernoblockRecipe.setIngredient('I', new RecipeChoice.ExactChoice(inferno));
-        Bukkit.addRecipe(infernoblockRecipe);
+        ShapedRecipe infernoBlockRecipe = new ShapedRecipe(new NamespacedKey(this, "infernoBlock"), infernoBlock);
+        infernoBlockRecipe.shape("II", "II");
+        infernoBlockRecipe.setIngredient('I', new RecipeChoice.ExactChoice(inferno));
+        Bukkit.addRecipe(infernoBlockRecipe);
 
         // potion of combat
         ShapedRecipe combatPotionRecipe = new ShapedRecipe(new NamespacedKey(this, "combatpotion"), combatPotion);
@@ -481,6 +540,55 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         pistonBootsRecipe.setIngredient('P', Material.PISTON);
         Bukkit.addRecipe(pistonBootsRecipe);
 
+        // golden string recipe
+        ShapedRecipe goldenStringRecipe = new ShapedRecipe(new NamespacedKey(this, "goldenstring"), goldenString);
+        goldenStringRecipe.shape("GGG", "GSG", "GGG");
+        goldenStringRecipe.setIngredient('G', Material.GOLD_INGOT);
+        goldenStringRecipe.setIngredient('S', Material.STRING);
+        Bukkit.addRecipe(goldenStringRecipe);
+
+        // midas rod recipe
+        ShapedRecipe midasRodRecipe = new ShapedRecipe(new NamespacedKey(this, "midasrod"), midasRod);
+        midasRodRecipe.shape("  G", " GS", "G S");
+        midasRodRecipe.setIngredient('G', Material.GOLD_BLOCK);
+        midasRodRecipe.setIngredient('S', new RecipeChoice.ExactChoice(goldenString));
+        Bukkit.addRecipe(midasRodRecipe);
+
+        // goldfish smelt recipe
+        // make the itemstack first for recipe choice
+        ItemStack goldfish = new ItemStack(Material.TROPICAL_FISH);
+        ItemMeta goldfishMeta = goldfish.getItemMeta();
+        List<String> goldfishLore = new ArrayList<>();
+        goldfishLore.add(ChatColor.RESET + "" + ChatColor.WHITE + "Can be smelted into 4 gold ingots!");
+        assert goldfishMeta != null;
+        goldfishMeta.setLore(goldfishLore);
+        goldfishMeta.setDisplayName(ChatColor.RESET + "" + ChatColor.GOLD + "Goldfish");
+        goldfish.setItemMeta(goldfishMeta);
+        FurnaceRecipe goldfishSmeltRecipe = new FurnaceRecipe(new NamespacedKey(this, "goldfishsmelt"), new ItemStack(Material.GOLD_INGOT, 4), new RecipeChoice.ExactChoice(goldfish), 10f, 100);
+        Bukkit.addRecipe(goldfishSmeltRecipe);
+        // stupid dumb task to make fished fish and itemstack fish the same
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    for (int i = 0; i < p.getInventory().getContents().length; i++) {
+                        // big if statement! wow!
+                        if (p.getInventory().getItem(i) != null
+                            && !(p.getInventory().getItem(i).getType().equals(Material.AIR))
+                            && p.getInventory().getItem(i).getType().equals(Material.TROPICAL_FISH)
+                            && p.getInventory().getItem(i).hasItemMeta()
+                            && p.getInventory().getItem(i).getItemMeta().hasLore()
+                            && !(p.getInventory().getItem(i).getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Goldfish"))
+                            && !(p.getInventory().getItem(i).equals(goldfish))) {
+                            int amount = p.getInventory().getItem(i).getAmount();
+                            p.getInventory().setItem(i, goldfish);
+                            p.getInventory().getItem(i).setAmount(amount);
+                        }
+                    }
+                }
+            }
+        }.runTaskTimer(this, 0, 20);
 
     }
 
@@ -621,73 +729,76 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 else
                     player.getInventory().addItem(wardenBow);
             }
-        } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
+        } else if (command.getName().equalsIgnoreCase("givelumberaxe")) {
             if (sender instanceof Player player) {
+                if (args.length == 1) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (p.getDisplayName().equalsIgnoreCase(args[0]))
+                            p.getInventory().addItem(lumberAxe);
+                        else
+                            player.sendMessage(ChatColor.RED + "invalid player!");
+                    }
+                }
+                else
+                    player.getInventory().addItem(lumberAxe);
+            }
+        } else if (command.getName().equalsIgnoreCase("togglemacecraftable")) {
                 // uses persistent data containers. i freaking LOVE these things now
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "macecraftable");
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.GREEN + "enabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.GREEN + "enabled!");
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.RED + "disabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Mace crafting " + ChatColor.RED + "disabled!");
                 }
-            }
         } else if (command.getName().equalsIgnoreCase("togglepvp")) {
-            if (sender instanceof Player player) {
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "pvp");
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.GREEN +"enabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.GREEN +"enabled!");
                     world.setPVP(true);
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.RED + "disabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "PVP " + ChatColor.RED + "disabled!");
                     world.setPVP(false);
                 }
-            }
         } else if (command.getName().equalsIgnoreCase("toggleend")) {
-            if (sender instanceof Player player) {
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "end");
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.GREEN +"enabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.GREEN +"enabled!");
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.RED + "disabled!");
-                }
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "End " + ChatColor.RED + "disabled!");
             }
         } else if (command.getName().equalsIgnoreCase("togglestringduper")) {
-            if (sender instanceof Player player) {
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "stringduper");
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.GREEN +"enabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.GREEN +"enabled!");
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.RED + "disabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "String dupers " + ChatColor.RED + "disabled!");
                 }
-            }
         } else if (command.getName().equalsIgnoreCase("toggleenderpearls")) {
-            if (sender instanceof Player player) {
                 World world = Bukkit.getWorlds().getFirst();
                 NamespacedKey key = new NamespacedKey(this, "enderpearls");
                 PersistentDataContainer data = world.getPersistentDataContainer();
                 if (Boolean.TRUE.equals(data.get(key, PersistentDataType.BOOLEAN))) {
                     data.set(key, PersistentDataType.BOOLEAN, false);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.GREEN +"enabled!");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.GREEN +"enabled!");
                 } else {
                     data.set(key, PersistentDataType.BOOLEAN, true);
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.RED + "disabled!");
-                }
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "Ender pearls " + ChatColor.RED + "disabled!");
             }
         } else if (command.getName().equalsIgnoreCase("toggleshulkers")) {
                 World world = Bukkit.getWorlds().getFirst();
@@ -700,6 +811,10 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                     data.set(key, PersistentDataType.BOOLEAN, true);
                     sender.sendMessage(ChatColor.LIGHT_PURPLE + "Shulker boxes " + ChatColor.RED + "disabled!");
                 }
+        } else if (command.getName().equalsIgnoreCase("getitem")) {
+            if (sender instanceof Player p) {
+                p.sendMessage(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getAsComponentString());
+            }
         }
 
 
