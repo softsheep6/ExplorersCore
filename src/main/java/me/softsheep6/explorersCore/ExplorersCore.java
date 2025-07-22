@@ -99,7 +99,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new HasteHammer(), this);
         getServer().getPluginManager().registerEvents(new WardenBow(), this);
         getServer().getPluginManager().registerEvents(new CustomFishingStuff(), this);
-        //getServer().getPluginManager().registerEvents(new LumberAxe(), this);
+        getServer().getPluginManager().registerEvents(new LumberAxe(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -589,6 +589,13 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimer(this, 0, 20);
+
+        // phantom membrane alternate recipe
+        ShapedRecipe phantomMembraneRecipe = new ShapedRecipe(new NamespacedKey(this, "phantommembrane"), new ItemStack(Material.PHANTOM_MEMBRANE));
+        phantomMembraneRecipe.shape("FF", "FF");
+        phantomMembraneRecipe.setIngredient('F', Material.FEATHER);
+        Bukkit.addRecipe(phantomMembraneRecipe);
+
 
     }
 

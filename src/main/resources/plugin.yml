@@ -1,5 +1,5 @@
 name: ExplorersCore
-version: '3.1.1'
+version: '3.1.2'
 main: me.softsheep6.explorersCore.ExplorersCore
 api-version: '1.21'
 commands:
@@ -80,6 +80,10 @@ commands:
     permission: explorerscore.namecolor
     usage: /<command>
   getitem:
-    description: temporary
+    description: for testing
     permission: explorerscore.getitem
+    usage: /<command>
+  startlightningdragonfight:
+    description: Starts the Lightning Dragon Fight at 0, 0, 0
+    permission: explorerscore.startlightningdragonfight
     usage: /<command>
