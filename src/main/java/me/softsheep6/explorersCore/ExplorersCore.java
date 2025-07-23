@@ -8,7 +8,7 @@ import me.softsheep6.explorersCore.items.event.*;
 import me.softsheep6.explorersCore.misc_listeners.*;
 import me.softsheep6.explorersCore.misc_listeners.death_listeners.BlazeDeath;
 import me.softsheep6.explorersCore.tasks.GiveEventItemEffectsTask;
-import me.softsheep6.explorersCore.tasks.ItemDetectionTask;
+//import me.softsheep6.explorersCore.tasks.ItemDetectionTask;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -33,7 +33,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -100,6 +99,7 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new WardenBow(), this);
         getServer().getPluginManager().registerEvents(new CustomFishingStuff(), this);
         getServer().getPluginManager().registerEvents(new LumberAxe(), this);
+        getServer().getPluginManager().registerEvents(new LightningDragonFight(), this);
 
         ArmorEquipEvent.registerListener(this);
 
@@ -822,6 +822,8 @@ public final class ExplorersCore extends JavaPlugin implements Listener {
             if (sender instanceof Player p) {
                 p.sendMessage(Objects.requireNonNull(p.getInventory().getItemInMainHand().getItemMeta()).getAsComponentString());
             }
+        } else if (command.getName().equalsIgnoreCase("startlightningdragonfight")) {
+            LightningDragonFight.startLightningDragonSpawn();
         }
 
 

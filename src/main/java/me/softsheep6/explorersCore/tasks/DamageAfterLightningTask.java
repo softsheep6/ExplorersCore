@@ -18,7 +18,7 @@ public class DamageAfterLightningTask extends BukkitRunnable {
     @Override
     public void run() {
         Entity attacked = LightningSword.getAttacked();
-        ((Damageable) attacked).damage(2);
+        ((Damageable) attacked).damage(4);
         ((LivingEntity) attacked).setMaximumNoDamageTicks(20);
     }
 }
